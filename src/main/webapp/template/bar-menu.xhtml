@@ -8,7 +8,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	
 	<h:form>
-		
+		<p:remoteCommand name="manterCliente" action="#{clienteController.iniciarCliente}" />
 	</h:form>
 	
     <!-- main menu-->
@@ -24,7 +24,7 @@
               	<a href="#" class="menu-item"><i class="icon-user4"></i>Usuários</a>
               </li>
               <li>
-              	<a href="#" class="menu-item"><i class="icon-group"></i>Clientes</a>  
+              	<a href="#" class="menu-item" onclick="manterCliente()"><i class="icon-group"></i>Clientes</a>  
               </li>
               <li>
               	<a href="#" class="menu-item"><i class="icon-book2"></i>Serviços</a> 
