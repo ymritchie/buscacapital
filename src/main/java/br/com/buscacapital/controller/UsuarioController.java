@@ -13,6 +13,12 @@ import br.com.buscacapital.model.Usuario;
 import br.com.buscacapital.util.BuscaCapitalUtils;
 import br.com.buscacapital.util.Mensagens;
 
+/**
+ * Controlador das requisições que ter a ver com <code>Usuario</code>
+ * 
+ * @author Yanisley Mora Ritchie
+ *
+ */
 @Scope("session")
 @Component("usuarioController")
 public class UsuarioController {

@@ -5,8 +5,11 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the avaliacao database table.
+ * Classe modelo para mapear a entidade de persistência avaliacao 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQuery(name="Avaliacao.findAll", query="SELECT a FROM Avaliacao a")

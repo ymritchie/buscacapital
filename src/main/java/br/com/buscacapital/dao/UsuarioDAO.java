@@ -17,7 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.buscacapital.exception.BuscaCapitalException;
 import br.com.buscacapital.model.Usuario;
-
+/**
+ * Classe que estabelece a comunicação com a entidade de persistência {@link Usuario}
+ * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
+ */
 @Repository
 @Qualifier("usuarioDAO")
 @Scope(proxyMode = ScopedProxyMode.NO, value = "prototype")
@@ -49,6 +55,7 @@ public class UsuarioDAO extends JpaDao<Usuario> implements Serializable {
 			}
 		}
 	}
+	
 	/**
 	 * @author  Yanisley Mora Ritchie
 	 * @since 14/03/2018

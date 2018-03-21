@@ -5,8 +5,11 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the sub_categoria database table.
+ * Classe modelo para mapear a entidade de persistência subcategoria 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @Table(name="sub_categoria")

@@ -6,8 +6,11 @@ import java.util.Date;
 
 
 /**
- * The persistent class for the usuario database table.
+ * Classe modelo para mapear a entidade de persistência usuario 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQueries({

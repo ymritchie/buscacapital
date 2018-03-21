@@ -6,8 +6,11 @@ import java.util.List;
 
 
 /**
- * The persistent class for the cliente database table.
+ * Classe modelo para mapear a entidade de persistência cliente 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")

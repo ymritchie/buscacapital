@@ -7,8 +7,11 @@ import java.math.BigInteger;
 
 
 /**
- * The persistent class for the cliente_pj database table.
+ * Classe modelo para mapear a entidade de persistência clientepj 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @Table(name="cliente_pj")

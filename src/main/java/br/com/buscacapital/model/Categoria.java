@@ -6,8 +6,11 @@ import java.util.List;
 
 
 /**
- * The persistent class for the categoria database table.
+ * Classe modelo para mapear a entidade de persistência categoria 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQuery(name="Categoria.findAll", query="SELECT c FROM Categoria c")

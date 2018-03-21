@@ -14,6 +14,11 @@ import javax.servlet.http.HttpSession;
 
 import br.com.buscacapital.model.Usuario;
 
+/**
+ * Controla o acesso às áreas restritas do sistema, verificando de existe um usuário logado
+ * @author  Yanisley Mora Ritchie
+ *
+ */
 public class SessionFilter implements Filter {
 
 	private static String FW_PAGINA_LOGIN = "/public/login.jsf";

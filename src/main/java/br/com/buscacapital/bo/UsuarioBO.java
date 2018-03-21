@@ -11,6 +11,13 @@ import br.com.buscacapital.exception.BuscaCapitalException;
 import br.com.buscacapital.model.Usuario;
 import br.com.buscacapital.util.BuscaCapitalUtils;
 
+/**
+ * Estabelece a comunicação entre o controller e o DAO além de tratar as regras de negócio
+ * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
+ */
 @Service("usuarioBO")
 public class UsuarioBO {
 

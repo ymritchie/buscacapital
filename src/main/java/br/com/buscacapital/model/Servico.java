@@ -5,10 +5,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-
 /**
- * The persistent class for the servico database table.
+ * Classe modelo para mapear a entidade de persistência servico 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQuery(name="Servico.findAll", query="SELECT s FROM Servico s")

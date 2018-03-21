@@ -7,10 +7,22 @@ import java.util.InputMismatchException;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Ferramentas utilitárias do sistema 
+ * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
+ */
 public class BuscaCapitalUtils {
 
 	private static Logger log = Logger.getLogger(BuscaCapitalUtils.class);
 	
+	/**
+	 * Criptografa para MD5
+	 * @param valor
+	 * @return
+	 */
 	public static String convertStringToMd5(String valor) {
         MessageDigest mDigest;
         try { 
@@ -36,6 +48,11 @@ public class BuscaCapitalUtils {
         }
 	}
 
+	/**
+	 * Valida se a senha cumpre com os requisitos mínimos
+	 * @param senha
+	 * @return
+	 */
 	public static boolean validarSenha(String senha) {
 		if (senha.matches("^.*(?=.{5,})(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).*$")) {
 			return true;
@@ -45,6 +62,11 @@ public class BuscaCapitalUtils {
 		
 	}
 	
+	/**
+	 * Verifica se o CPF é valido
+	 * @param cpf
+	 * @return
+	 */
 	public static boolean isCpfValido(String cpf) {
 	    if (cpf.equals("00000000000") || cpf.equals("11111111111") ||
 	    	cpf.equals("22222222222") || cpf.equals("33333333333") ||
@@ -92,6 +114,9 @@ public class BuscaCapitalUtils {
 	    }
 	}
 	
+	/*
+	 * Verifica se o cnpj é válido
+	 */
 	public static boolean isCnpjValido(String cnpj) {
 		if (cnpj.equals("00000000000000") || cnpj.equals("11111111111111") ||
 		    cnpj.equals("22222222222222") || cnpj.equals("33333333333333") ||

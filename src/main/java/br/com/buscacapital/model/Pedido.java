@@ -8,8 +8,11 @@ import java.util.List;
 
 
 /**
- * The persistent class for the pedido database table.
+ * Classe modelo para mapear a entidade de persistência pedido 
  * 
+ * @author  Yanisley Mora Ritchie
+ * @since 21/03/2018
+ *
  */
 @Entity
 @NamedQuery(name="Pedido.findAll", query="SELECT p FROM Pedido p")
