@@ -1,0 +1,388 @@
+/*================================================================================
+	Item Name: Robust - Responsive Admin Theme
+	Version: 1.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.content {
+	min-height: 0 !important;
+}
+
+.content-wrapper {
+	background-color: transparent !important;
+	margin-left: 0 !important;
+}
+
+.public-00, .public-00 .fc-event-skin, .public-00 a{ 
+	background: #3BAAE3 !important; 
+	border-color: #3BAAE3 !important;
+	color: #FFFFFF !important;
+} 
+
+.public-01, .public-01 .fc-event-skin, .public-01 a{ 
+	background: #212F3C !important; 
+	border-color: #212F3C !important; 
+	color: #FFFFFF !important;
+}
+
+.public-02, .public-02 .fc-event-skin, .public-02 a{ 
+	background: #9ca2c4 !important;
+	border-color: #9ca2c4 !important; 
+	color: #FFFFFF !important;
+}
+
+.public-03, .public-03 .fc-event-skin, .public-03 a{ 
+	background: #17A589 !important;
+	border-color: #17A589 !important; 
+	color: #FFFFFF !important;
+} 
+
+.public-04, .public-04 .fc-event-skin, .public-04 a{ 
+	background: #007efd !important;
+	border-color: #007efd !important; 
+	color: #FFFFFF !important;
+} 
+
+.public-05, .public-05 .fc-event-skin, .public-05 a{
+	background: #B7950B !important;
+	border-color: #B7950B ; !important;
+	color: #FFFFFF !important;
+} 
+
+.public-06, .public-06 .fc-event-skin, .public-06 a{ 
+	background: #E74C3C !important;
+	border-color: #E74C3C !important; 
+	color: #FFFFFF !important;
+}
+
+.public-07, .public-07 .fc-event-skin, .public-07 a{ 
+	background: #566573 !important;
+	border-color: #566573 !important; 
+	color: #FFFFFF !important;
+}
+
+.public-08, .public-08 .fc-event-skin, .public-08 a{ 
+	background: #A569BD !important;
+	border-color: #A569BD !important; 
+	color: #FFFFFF !important;
+}
+
+/*******************************organograma********************/
+.ui-organigram .ui-organigram-node.presi {
+    background: #93e7ff;
+    background: -moz-linear-gradient(top, #93e7ff 0%, #007efc 100%);
+    background: -webkit-linear-gradient(top, #93e7ff 0%,#007efc 100%);
+    background: linear-gradient(to bottom, #93e7ff 0%,#007efc 100%);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+ 
+.ui-organigram .ui-organigram-node.direx {
+    background: #88c048;
+    background: -moz-linear-gradient(top, #88c048 0%, #69a038 100%);
+    background: -webkit-linear-gradient(top, #88c048 0%,#69a038 100%);
+    background: linear-gradient(to bottom, #88c048 0%,#69a038 100%);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.ui-organigram .ui-organigram-node.super {
+    background: #ffb08a;
+    background: -moz-linear-gradient(top, #ffb08a 0%, #FF854D 100%);
+    background: -webkit-linear-gradient(top, #ffb08a 0%,#FF854D 100%);
+    background: linear-gradient(to bottom, #ffb08a 0%,#FF854D 100%);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.ui-organigram .ui-organigram-node.gerencia {
+    background: #34495E;
+    background: -moz-linear-gradient(top, #34495E 0%, #AEB6BF 100%);
+    background: -webkit-linear-gradient(top, #34495E 0%,#AEB6BF 100%);
+    background: linear-gradient(to bottom, #34495E 0%,#AEB6BF 100%);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.ui-panel.ui-widget .ui-panel-titlebar {
+	padding: 0.3em !important;  
+}
+
+/*
+	Classes responsáveis de agrupar componentes
+*/
+.ui-inputgroup {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex
+}
+
+.ui-inputgroup .ui-inputgroup-addon,
+.ui-inputgroup .ui-inputgroup-addon-checkbox {
+    display: inline-block;
+    text-align: center;
+    min-width: 1.5em;
+    border-width: 1px;
+    border-style: solid
+}
+
+.ui-inputgroup .ui-inputgroup-addon {
+    padding: 4px
+}
+
+.ui-inputgroup .ui-inputgroup-addon-checkbox {
+    padding: 1px
+}
+
+.ui-inputgroup .ui-inputgroup-addon+.ui-inputgroup-addon {
+    border-left: 0 none
+}
+
+.ui-inputgroup .ui-inputtext {
+    padding-left: .5em
+}
+
+.ui-inputgroup .ui-inputtext:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0 none
+}
+
+.ui-inputgroup .ui-inputtext:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0 none
+}
+
+.ui-inputgroup .ui-button {
+    margin-right: 0;
+    border-radius: 0
+}
+
+.ui-inputgroup .ui-inputgroup-addon-checkbox .ui-chkbox {
+    margin-right: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: 2px
+}
+
+.ui-inputgroup .ui-button .ui-button-text {
+    padding-bottom: 4px;
+    padding-top: 4px
+}
+
+.ui-fluid .ui-inputgroup .ui-button {
+    width: auto
+}
+
+.hideToolbar .ui-editor-toolbar {
+   display: none;
+}
+
+/*Configuarções do File Upload*/
+div.ui-fileupload {
+    -webkit-box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.15), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.09);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.15), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.09);
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-icon-plusthick {
+    color: #fff;
+    text-indent: 0;
+    top: 10px;
+    height: 24px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-icon-plusthick:before {
+    color: #fff;
+    top: 5px;
+    left: 1px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose {
+    color: #fff;
+    background: #3c8dbc;
+    padding: 3px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose:hover {
+    background-color: #367fa9 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose:focus {
+    background-color: #32769d !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose:active {
+    background-color: #296282 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose.ui-state-disabled:hover {
+    background-color: #3c8dbc !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose.ui-state-disabled:focus {
+    background-color: #3c8dbc !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar span.ui-fileupload-choose.ui-state-disabled:active {
+    background-color: #3c8dbc !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload {
+    color: #fff;
+    background: #00a65a
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload:hover {
+    background-color: #008d4c !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload:focus {
+    background-color: #007d44 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload:active {
+    background-color: #005a31 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload.ui-state-disabled:hover {
+    background-color: #00a65a !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload.ui-state-disabled:focus {
+    background-color: #00a65a !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload.ui-state-disabled:active {
+    background-color: #00a65a !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload span.ui-icon-arrowreturnthick-1-n {
+    background-image: none !important;
+    display: inline !important;
+    text-indent: 0;
+    top: 10px;
+    height: 24px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-upload span.ui-icon-arrowreturnthick-1-n:before {
+    font-family: FontAwesome;
+    color: #fff;
+    position: relative;
+    font-size: 13.3px;
+    padding: 0 4px;
+    top: 2px;
+    overflow: hidden;
+    content: "\f093" !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel {
+    color: #fff;
+    background: #dd4b39
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel:hover {
+    background-color: #d73925 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel:focus {
+    background-color: #ca3523 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel:active {
+    background-color: #ac2d1e !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel.ui-state-disabled:hover {
+    background-color: #dd4b39 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel.ui-state-disabled:focus {
+    background-color: #dd4b39 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel.ui-state-disabled:active {
+    background-color: #dd4b39 !important
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel span.ui-icon-cancel {
+    background-image: none !important;
+    display: inline !important;
+    text-indent: 0;
+    top: 10px;
+    height: 24px
+}
+
+div.ui-fileupload .ui-fileupload-buttonbar button.ui-fileupload-cancel span.ui-icon-cancel:before {
+    font-family: FontAwesome;
+    color: #fff;
+    position: relative;
+    font-size: 13.3px;
+    padding: 0 4px;
+    top: 2px;
+    overflow: hidden;
+    content: "\f05e" !important
+}
+
+div.ui-fileupload .ui-fileupload-row button.ui-fileupload-cancel span.ui-icon-close {
+    background-image: none !important;
+    display: inline !important;
+    text-indent: 0
+}
+
+div.ui-fileupload .ui-fileupload-row button.ui-fileupload-cancel span.ui-icon-close:before {
+    font-family: FontAwesome;
+    color: #444;
+    display: inline !important;
+    top: -5px;
+    right: 2px;
+    cursor: pointer;
+    position: absolute;
+    font-size: 16px;
+    margin-left: 5px;
+    overflow: hidden;
+    content: "\f00d" !important
+}
+
+@media (max-width:768px) {
+    body div.ui-fileupload .ui-fileupload-buttonbar .ui-button {
+        padding: .9em 1em .9em 1.2em
+    }
+    body div.ui-fileupload .ui-fileupload-buttonbar .ui-button .ui-button-text {
+        display: none
+    }
+    body div.ui-fileupload .ui-fileupload-buttonbar .ui-button span.ui-icon-plusthick {
+        top: 11px
+    }
+    body div.ui-fileupload .ui-fileupload-buttonbar .ui-button span.ui-icon-arrowreturnthick-1-n,
+    body div.ui-fileupload .ui-fileupload-buttonbar .ui-button span.ui-icon-cancel {
+        top: 8px
+    }
+}
+
+@media (max-width:768px) {
+    span.ui-icon-plusthick:before,
+    button.ui-fileupload-upload span.ui-icon-arrowreturnthick-1-n:before,
+    button.ui-fileupload-cancel span.ui-icon-cancel:before {
+        top: 0 !important;
+        margin-left: -2px !important
+    }
+}
+
+  

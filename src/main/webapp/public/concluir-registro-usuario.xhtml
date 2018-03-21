@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/templateu.xhtml">
+	
+	<ui:define name="body-content">
+		<h:form prependId="false" styleClass="form-horizontal form-simple">
+			<p:messages id="mensagem" showDetail="true" showSummary="false" autoUpdate="true" closable="true" escape="false"/>
+			
+			<p:outputPanel id="cadastro-usuario" style="margin: auto; width: 80%;">
+				<p:panel header="Concluir cadastro de usuário" styleClass="card">
+					<div class="row">
+						<div class="col-md-4 has-error">
+   							<label class="control-label" for="nome-usuario">Nome *</label>
+   							<p:inputText id="nome-usuario" value="#{usuarioController.usuario.nome}" styleClass="form-control"
+									maxlength="30" placeholder="Nome" required="true" />
+   						</div>	
+   						
+   						<div class="col-md-8 has-error">
+   							<label class="control-label" for="sobrenome-usuario">Sobrenome *</label>
+   							<p:inputText id="sobrenome-usuario" value="#{usuarioController.usuario.sobrenome}" styleClass="form-control"
+									maxlength="30" placeholder="Usuário" required="true"/>
+   						</div>	
+					</div>
+					
+					<div class="row">
+						<div class="col-md-4">
+							<div class="ui-fluid">
+		   						<label class="control-label" for="data-nascimento">Data de nascimento *</label>
+		   						<p:calendar value="#{usuarioController.usuario.dataNascimento}" 
+		   							effect="fade" 
+		   							maxlength="10" 
+		   							locale="pt"
+									pattern="dd/MM/yyyy" navigator="true" 
+									id="data-nascimento" 
+									required="true" 
+									showOn="button"
+									onkeypress="Mascara(this,Data);" onkeydown="Mascara(this,Data);"
+									onkeyup="Mascara(this,Data);"/>
+							</div>	
+						</div>
+						
+						<div class="col-md-4">
+							<label class="control-label" for="telefone-usuario">Telefone *</label>
+   							<p:inputText id="telefone-usuario" value="#{usuarioController.usuario.telefone}" styleClass="form-control"
+									maxlength="15" placeholder="Telefone com DDD" required="true"
+									onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
+									onkeyup="Mascara(this,Telefone);"/>
+						</div>
+						
+						<div class="col-md-4">
+							<label class="sexo" for="sexo">Sexo</label>
+							<p:selectOneMenu id="sexo" value="#{usuarioController.usuario.sexo}" effect="fade" styleClass="form-control"  autoWidth="false">
+		   						<f:selectItem itemLabel="Sexo..." itemValue="#{null}" noSelectionOption="true"/>
+		   						<f:selectItem itemLabel="Masculino" itemValue="M"/>
+		   						<f:selectItem itemLabel="Femenino" itemValue="F"/>
+		   					</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<label for="login-usuario" class="control-label">Usuário</label>
+							<p:inputText id="login-usuario" value="#{usuarioController.usuario.login}" styleClass="form-control"
+								maxlength="30" placeholder="Usuário" required="true" disabled="true"/>
+						</div>
+						
+						<div class="col-md-6">
+							<label for="email-usuario" class="control-label">E-mail *</label>
+							<p:inputText id="email-usuario" value="#{usuarioController.usuario.email}" styleClass="form-control"
+								maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email" disabled="true">
+									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</p:inputText>
+						</div>
+					</div>	
+					
+					<div class="row">
+						<div class="col-md-6">
+							<label for="senha-usuario" class="control-label">Senha *</label>
+							<p:password id="senha-usuario" value="#{usuarioController.usuario.senha}" styleClass="form-control"
+								maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha" />
+							<!--  
+								<f:validateRegex pattern="^.*(?=.{5,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&amp;+=]).*$" />
+							</p:password> -->		
+						</div>
+						
+						<div class="col-md-6">
+							<label for="repetir-senha" class="control-label">Repetir senha *</label>
+							<p:password id="repetir-senha" value="#{usuarioController.usuario.senha}" styleClass="form-control" maxlength="20" placeholder="Repetir senha" required="true" />
+								
+						</div>
+					</div>
+					
+					<f:facet name="footer">
+   						<center>
+   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario}" />
+													
+							<p:spacer width="20" />
+						
+							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" action="#{usuarioController.cancelarInclusaoUsuario}" process="@form"/>
+   						</center>
+   					</f:facet>	
+						
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>	
