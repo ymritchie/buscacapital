@@ -6,18 +6,13 @@
 	<non-jta-data-source>buscacapitalDS</non-jta-data-source>
 	
 		<class>br.com.buscacapital.model.Avaliacao</class>
-		<class>br.com.buscacapital.model.Bairro</class>
 		<class>br.com.buscacapital.model.Categoria</class>
-		<class>br.com.buscacapital.model.Cidade</class>
 		<class>br.com.buscacapital.model.Cliente</class>
 		<class>br.com.buscacapital.model.ClientePf</class>
 		<class>br.com.buscacapital.model.ClientePj</class>
-		<class>br.com.buscacapital.model.Logradouro</class>
 		<class>br.com.buscacapital.model.Pedido</class>
 		<class>br.com.buscacapital.model.Servico</class>
 		<class>br.com.buscacapital.model.SubCategoria</class>
-		<class>br.com.buscacapital.model.TipoLogradouro</class>
-		<class>br.com.buscacapital.model.Uf</class>
 		<class>br.com.buscacapital.model.Usuario</class>
 		
 		<properties>

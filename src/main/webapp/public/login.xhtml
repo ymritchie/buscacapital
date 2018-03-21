@@ -30,12 +30,12 @@
 									<div class="col-md-12">
 										<label for="j_username" class="control-label">Login</label>
 										<p:inputText id="j_username" value="#{usuarioController.login}" styleClass="form-control form-control-lg input-lg"
-											maxlength="20" placeholder="Usuário" />
+											maxlength="20" placeholder="Usuário" required="true"/>
 									</div>
 									<div class="col-md-12">
 										<label for="j_password" class="control-label">Senha</label>
-									<p:password id="j_password" value="#{usuarioController.senha}" styleClass="form-control form-control-lg input-lg"
-										maxlength="20" placeholder="Senha"/>
+										<p:password id="j_password" value="#{usuarioController.senha}" styleClass="form-control form-control-lg input-lg"
+											maxlength="20" placeholder="Senha" required="true"/>
 									</div>
 								</fieldset>
 								<fieldset class="form-group row">

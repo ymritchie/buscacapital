@@ -19,23 +19,34 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="cliente_id")
 	private Long codigo;
-
-	@Column(name="complemento_endereco")
-	private String complementoEndereco;
-
-	@Column(name="numero_endereco")
-	private int numeroEndereco;
-
-	@Column(name="tipo_cliente")
-	private String tipoCliente;
-
-	@ManyToOne
-	@JoinColumn(name="logradouro_id")
-	private Logradouro logradouro;
 	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
+	
+	@Column(name="uf")
+	private String enderecoUf;
+	
+	@Column(name="cidade")
+	private String enderecoCidade;
+	
+	@Column(name="cep")
+	private String enderecoCep;
+	
+	@Column(name="bairro")
+	private String enderecoBairro;
+	
+	@Column(name="logradouro")
+	private String enderecoLogradouro;
+
+	@Column(name="numero")
+	private Integer enderecoNumero;
+	
+	@Column(name="complemento")
+	private String enderecoComplemento;
+
+	@Column(name="tipo_cliente")
+	private String tipoCliente;
 
 	public Long getCodigo() {
 		return codigo;
@@ -45,20 +56,68 @@ public class Cliente implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public String getComplementoEndereco() {
-		return complementoEndereco;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setComplementoEndereco(String complementoEndereco) {
-		this.complementoEndereco = complementoEndereco;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public int getNumeroEndereco() {
-		return numeroEndereco;
+	public String getEnderecoUf() {
+		return enderecoUf;
 	}
 
-	public void setNumeroEndereco(int numeroEndereco) {
-		this.numeroEndereco = numeroEndereco;
+	public void setEnderecoUf(String enderecoUf) {
+		this.enderecoUf = enderecoUf;
+	}
+
+	public String getEnderecoCidade() {
+		return enderecoCidade;
+	}
+
+	public void setEnderecoCidade(String enderecoCidade) {
+		this.enderecoCidade = enderecoCidade;
+	}
+
+	public String getEnderecoCep() {
+		return enderecoCep;
+	}
+
+	public void setEnderecoCep(String enderecoCep) {
+		this.enderecoCep = enderecoCep;
+	}
+
+	public String getEnderecoBairro() {
+		return enderecoBairro;
+	}
+
+	public void setEnderecoBairro(String enderecoBairro) {
+		this.enderecoBairro = enderecoBairro;
+	}
+
+	public String getEnderecoLogradouro() {
+		return enderecoLogradouro;
+	}
+
+	public void setEnderecoLogradouro(String enderecoLogradouro) {
+		this.enderecoLogradouro = enderecoLogradouro;
+	}
+
+	public Integer getEnderecoNumero() {
+		return enderecoNumero;
+	}
+
+	public void setEnderecoNumero(Integer enderecoNumero) {
+		this.enderecoNumero = enderecoNumero;
+	}
+
+	public String getEnderecoComplemento() {
+		return enderecoComplemento;
+	}
+
+	public void setEnderecoComplemento(String enderecoComplemento) {
+		this.enderecoComplemento = enderecoComplemento;
 	}
 
 	public String getTipoCliente() {
@@ -67,14 +126,6 @@ public class Cliente implements Serializable {
 
 	public void setTipoCliente(String tipoCliente) {
 		this.tipoCliente = tipoCliente;
-	}
-
-	public Logradouro getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(Logradouro logradouro) {
-		this.logradouro = logradouro;
 	}
 
 	@Override
@@ -104,8 +155,10 @@ public class Cliente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cliente [codigo=" + codigo + ", complementoEndereco=" + complementoEndereco + ", numeroEndereco="
-				+ numeroEndereco + ", tipoCliente=" + tipoCliente + ", logradouro=" + logradouro + "]";
+		return "Cliente [codigo=" + codigo + ", usuario=" + usuario + ", enderecoUf=" + enderecoUf + ", enderecoCidade="
+				+ enderecoCidade + ", enderecoCep=" + enderecoCep + ", enderecoBairro=" + enderecoBairro
+				+ ", enderecoLogradouro=" + enderecoLogradouro + ", enderecoNumero=" + enderecoNumero
+				+ ", enderecoComplemento=" + enderecoComplemento + ", tipoCliente=" + tipoCliente + "]";
 	}
 
 	

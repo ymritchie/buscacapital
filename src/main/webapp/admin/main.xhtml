@@ -12,7 +12,11 @@
 		
 			<p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
 			
-			<h1>Página de Administração</h1>
+			<p:outputPanel id="painelAdmin" rendered="#{usuarioController.usuarioLogado.administrador}"> 
+			</p:outputPanel>
+			
+			<p:outputPanel id="painelCliente" rendered="#{!usuarioController.usuarioLogado.administrador}"> 
+			</p:outputPanel>
 			
 		</h:form>
 	</ui:define>
