@@ -1,5 +1,8 @@
 package br.com.buscacapital.bo;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import br.com.buscacapital.model.Usuario;
 @Service("clienteBO")
 public class ClienteBO {
 
+	private static Logger log = Logger.getLogger(ClienteBO.class);
 	ClienteDAO clienteDAO;
 	
 	
@@ -41,6 +45,7 @@ public class ClienteBO {
 			
 			this.clienteDAO.salvarCliente(cliente);
 		} catch (Exception e) {
+			log.error(e);
 			throw new BuscaCapitalException(e.getMessage());
 		}
 	}
@@ -53,6 +58,7 @@ public class ClienteBO {
 		try {
 			this.clienteDAO.excluirCliente(cliente);
 		} catch (Exception e) {
+			log.error(e);
 			throw new BuscaCapitalException(e.getMessage());
 		}
 	}
@@ -66,6 +72,7 @@ public class ClienteBO {
 		try {
 			return this.clienteDAO.buscarPorCodigo(codigo);
 		} catch (Exception e) {
+			log.error(e);
 			throw new BuscaCapitalException(e.getMessage());
 		}
 	}
@@ -79,7 +86,22 @@ public class ClienteBO {
 		try {
 			return this.clienteDAO.buscarPorUsuario(usuario);
 		} catch (Exception e) {
+			log.error(e);
 			throw new BuscaCapitalException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Pesquisa todos os clientes banco de dados
+	 * 
+	 * @return
+	 */
+	public List<Cliente> listarTodos() {
+		try {
+			return this.clienteDAO.findAll();
+		} catch (Exception e) {
+			log.error(e);
+			return null;
 		}
 	}
 

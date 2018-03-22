@@ -8,26 +8,119 @@
 	
 	<ui:define name="body-content" >
 
-		<h:form id="frmCliente" prependId="false" >
+		<h:form id="frmCliente" prependId="false" styleClass="form">
 		
 			<p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
 			
 			<p:outputPanel id="painelPesquisa" rendered="#{clienteController.pesquisaCliente}"> 
-				<p:panel styleClass="card" header="Opções de pesquisa">
+				<p:panel styleClass="card" header="Opções de pesquisa" rendered="false">
 					
+				</p:panel>
+			
+				
+				<p:panel styleClass="card" header="Lista de Clientes">
+					<p:dataTable id="tblclientes" value="#{clienteController.listaClientes}" var="cliente"
+						resizableColumns="true" emptyMessage="Não há clentes cadastrados..." rows="40" paginator="true"
+						styleClass="table table-striped table-responsive" rowsPerPageTemplate="40,60,80,100"
+						paginatorTemplate="{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {CadastrarCliente}"
+	   					paginatorPosition="top">
+	   					
+	   					<f:facet name="{CadastrarCliente}">
+							<div style="float: right; height: 15px; padding-left: 5px;">
+								<p:commandButton id="novoCliente" process="@this" update="@form" value="Cadastrar Cliente" 
+		   							actionListener="#{clienteController.incluirCliente}"  icon="fa fa-plus" styleClass="btn-info btn-sm" />
+							</div>
+						</f:facet>
+						
+						<p:column headerText="E-mail">
+							<h:outputText value="#{cliente.email}" />
+						</p:column>
+						
+						<p:column headerText="Telefone">
+							<h:outputText value="#{cliente.telefone}" >
+								<f:converter converterId="telefoneConverter"/>
+							</h:outputText>
+						</p:column>
+						
+						
+						<p:column headerText="Tipo">
+							<h:outputText value="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" />
+						</p:column>
+					
+					</p:dataTable>
 				</p:panel>
 			</p:outputPanel>
 			
 			<p:outputPanel id="painelCadastro" rendered="#{!clienteController.pesquisaCliente}"> 
-				<p:panel styleClass="card" header="Informações de endereço">
-					<div class="row">
-						<div class="col-md-8">
-							<p:inputText id="cep" value="#{clienteController.cep}" styleClass="form-control"/>
+				<p:panel styleClass="card" header="Cadastrar Cliente">
+					<div class="form-body">
+						<h4 class="form-section">
+							<i class="icon-map"></i>Informações de Endereço
+						</h4>
+						
+						<div class="row">
+							<div class="col-md-3">
+								<label for="cep" class="control-label">CEP *</label>
+								<div class="ui-inputgroup">
+									<p:inputText id="cep" value="#{clienteController.cliente.enderecoCep}" styleClass="form-control" 
+										onkeypress="Mascara(this,Cep);" onkeydown="Mascara(this,Cep);"
+										onkeyup="Mascara(this,Cep);" maxlength="9" required="true"/>
+									<p:commandButton actionListener="#{clienteController.pesquisarEnderecoPorCep}" value="" styleClass="btn btn-primary btn-sm" icon="fa fa-search"
+								 		title="Pesquisar CEP" process="@this, cep" update="logradouro, bairro, cidade, estado"/>	
+								</div>	
+							</div>
+							
+							<div class="col-md-9">
+								<label for="logradouro" class="control-label">Logradouro *</label>
+								<p:inputText id="logradouro" value="#{clienteController.cliente.enderecoLogradouro}" styleClass="form-control" maxlength="30"
+									required="true"/>
+							</div>
 						</div>
-						<div class="col-md-4">
-							<p:commandButton actionListener="#{clienteController.pesquisarEnderecoPorCep}" value="Consultar CEP" styleClass="btn btn-primary"/>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<label for="complemento" class="control-label">Complemento *</label>
+								<p:inputText id="complemento" value="#{clienteController.cliente.enderecoComplemento}" styleClass="form-control" 
+									maxlength="60" required="true"/>
+							</div>
+							
+							<div class="col-md-6">
+								<label for="bairro" class="control-label">Bairro *</label>
+								<p:inputText id="bairro" value="#{clienteController.cliente.enderecoBairro}" styleClass="form-control" 
+									maxlength="30" required="true"/>
+							</div>
 						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label for="cidade" class="control-label">Cidade *</label>
+								<p:inputText id="cidade" value="#{clienteController.cliente.enderecoCidade}" styleClass="form-control" 
+									maxlength="30" required="true"/>
+							</div>
+							
+							<div class="col-md-4">
+								<label for="estado" class="control-label">Estado *</label>
+								<p:selectOneMenu id="estado" value="#{clienteController.cliente.enderecoUf}" styleClass="form-control" maxlength="2" 
+									required="true" autoWidth="false">
+									<f:selectItem itemLabel="Estado..." itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{clienteController.listaEstados}"/>
+								</p:selectOneMenu>
+								
+							</div>
+							
+							<div class="col-md-4">
+								<label for="numero" class="control-label">Número</label>
+								<p:inputText id="numero" value="#{clienteController.cliente.enderecoNumero}" styleClass="form-control" 
+									maxlength="10"/>
+							</div>
+							
+						</div>
+						
+						<h4 class="form-section">
+							<i class="icon-clipboard4"></i>Informações Gerais
+						</h4>
 					</div>
+					
 				</p:panel>
 			</p:outputPanel>
 			

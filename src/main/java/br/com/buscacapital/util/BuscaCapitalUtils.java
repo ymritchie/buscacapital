@@ -10,7 +10,12 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.InputMismatchException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.text.MaskFormatter;
 
 import org.apache.log4j.Logger;
 
@@ -195,6 +200,40 @@ public class BuscaCapitalUtils {
 		} else {
 			return "";
 		}
+	}
+
+	/**
+	 * Formata telefone com a máscara correspondente para 8, 9, 10 ou 11 números
+	 * @param telefone
+	 * @return
+	 */
+	public static String formataTelefone(String telefone) {
+		if (telefone != null || !telefone.isEmpty()) {
+			Pattern pattern = null;
+			Matcher matcher = null;
+			
+			switch (telefone.length()) {
+				case 11:
+					pattern = Pattern.compile("([0-9]{2})([0-9]{5})([0-9]{4})");
+					matcher = pattern.matcher(telefone);
+					return matcher.replaceAll("($1) $2-$3");
+				case 10:
+					pattern = Pattern.compile("([0-9]{2})([0-9]{4})([0-9]{4})");
+					matcher = pattern.matcher(telefone);
+					return matcher.replaceAll("($1) $2-$3");
+				case 9:
+					pattern = Pattern.compile("([0-9]{5})([0-9]{4})");
+					matcher = pattern.matcher(telefone);
+					return matcher.replaceAll("$1-$2");
+				default:
+					pattern = Pattern.compile("([0-9]{4})([0-9]{4})");
+					matcher = pattern.matcher(telefone);
+					return matcher.replaceAll("$1-$2");
+			}
+			
+		}
+			
+		return telefone;
 	}
 	
 }

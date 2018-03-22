@@ -166,7 +166,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 .ui-inputgroup .ui-button {
     margin-right: 0;
-    border-radius: 0
+  	border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
 }
 
 .ui-inputgroup .ui-inputgroup-addon-checkbox .ui-chkbox {

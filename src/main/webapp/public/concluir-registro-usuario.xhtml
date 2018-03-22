@@ -45,9 +45,10 @@
 						
 						<div class="col-md-4">
 							<label class="control-label" for="telefone-usuario">Telefone *</label>
+   							
    							<p:inputText id="telefone-usuario" value="#{usuarioController.usuario.telefone}" styleClass="form-control"
 									maxlength="15" placeholder="Telefone com DDD" required="true"
-									onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
+									type="tel" onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
 									onkeyup="Mascara(this,Telefone);"/>
 						</div>
 						
@@ -72,7 +73,7 @@
 							<label for="email-usuario" class="control-label">E-mail *</label>
 							<p:inputText id="email-usuario" value="#{usuarioController.usuario.email}" styleClass="form-control"
 								maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email" disabled="true">
-									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
 							</p:inputText>
 						</div>
 					</div>	
