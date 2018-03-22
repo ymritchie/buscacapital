@@ -2,8 +2,8 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	
 	<persistence-unit name="buscacapitalPU" transaction-type="RESOURCE_LOCAL">
-	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-	<non-jta-data-source>buscacapitalDS</non-jta-data-source>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<non-jta-data-source>buscacapitalDS</non-jta-data-source>
 	
 		<class>br.com.buscacapital.model.Avaliacao</class>
 		<class>br.com.buscacapital.model.Categoria</class>
@@ -22,7 +22,33 @@
 			<property name="hibernate.jdbc.batch_size" value="50" />
 			<property name="javax.persistence.query.timeout" value="1000" />
 			<property name="hibernate.transaction.flush_before_completion"	value="true" /> 
-			<!-- <property name="hibernate.hbm2ddl.auto" value="validate" /> -->
 		</properties>
 	</persistence-unit>
+	
+	<!-- Unidade de Persistência para testes 
+	<persistence-unit name="buscacapitalTESTE" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<non-jta-data-source>buscacapitalDS</non-jta-data-source>
+	
+		<class>br.com.buscacapital.model.Avaliacao</class>
+		<class>br.com.buscacapital.model.Categoria</class>
+		<class>br.com.buscacapital.model.Cliente</class>
+		<class>br.com.buscacapital.model.ClientePf</class>
+		<class>br.com.buscacapital.model.ClientePj</class>
+		<class>br.com.buscacapital.model.Pedido</class>
+		<class>br.com.buscacapital.model.Servico</class>
+		<class>br.com.buscacapital.model.SubCategoria</class>
+		<class>br.com.buscacapital.model.Usuario</class>
+		
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.autocommit" value="false" />
+			<property name="hibernate.jdbc.batch_size" value="50" />
+			<property name="javax.persistence.query.timeout" value="1000" />
+			<property name="hibernate.transaction.flush_before_completion"	value="true" /> 
+			
+		</properties>
+	</persistence-unit>
+	-->
 </persistence>

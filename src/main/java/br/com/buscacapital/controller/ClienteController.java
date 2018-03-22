@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-
 import br.com.buscacapital.bo.ClienteBO;
 import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.util.BuscaCapitalUtils;
@@ -57,12 +55,12 @@ public class ClienteController {
 		try {
 			this.cep = this.cep.replaceAll("[^0-9]", "");
 			URL urlConsultarCep = new URL("http://api.postmon.com.br/v1/cep/" + this.cep);
-			/*
+			
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.30.0.1", 9090));
 			
 			HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection(proxy);
-			*/
-			HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection();
+			
+			//HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection();
 			connection.setConnectTimeout(15000);
 			connection.connect();
 			
@@ -81,7 +79,7 @@ public class ClienteController {
 			
 		} catch (Exception e) {
 			log.error("Erro ao consultar CEP: " + cep + ", " + e.getMessage());
-			Mensagens.addMsgErro("Erro ao consultar CEP: " + cep + ", " + e.getMessage());
+			Mensagens.addMsgInfo("CEP não encontrado!");
 		}
 	}
 	

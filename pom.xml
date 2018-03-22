@@ -40,7 +40,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     
@@ -69,6 +69,7 @@
 	  <scope>provided</scope>
 	</dependency>
 	
+	<!-- Esta dependência  deve ser inativada para realizar testes unitários com JUnit -->
     <dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
@@ -80,6 +81,22 @@
 	        </exclusion>
     	</exclusions>
 	</dependency>
+	
+	<!-- Dependências devem ser ativadas para realizar testes unitários com JUnit
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.2.10.Final</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<scope>provided</scope>
+		</dependency>
+	
+	 -->
 	
 	<dependency>
 	    <groupId>log4j</groupId>
@@ -164,7 +181,7 @@
 	<dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
-	    <version>6.0.6</version>
+	    <version>5.1.45</version>
 	</dependency>
 	
   

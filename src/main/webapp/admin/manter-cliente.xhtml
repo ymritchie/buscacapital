@@ -13,7 +13,13 @@
 			<p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
 			
 			<p:outputPanel id="painelPesquisa" rendered="#{clienteController.pesquisaCliente}"> 
-				<p:panel styleClass="card" header="Pesquisar Clientes">
+				<p:panel styleClass="card" header="Opções de pesquisa">
+					
+				</p:panel>
+			</p:outputPanel>
+			
+			<p:outputPanel id="painelCadastro" rendered="#{!clienteController.pesquisaCliente}"> 
+				<p:panel styleClass="card" header="Informações de endereço">
 					<div class="row">
 						<div class="col-md-8">
 							<p:inputText id="cep" value="#{clienteController.cep}" styleClass="form-control"/>
@@ -23,9 +29,6 @@
 						</div>
 					</div>
 				</p:panel>
-			</p:outputPanel>
-			
-			<p:outputPanel id="painelCadastro" rendered="#{!clienteController.pesquisaCliente}"> 
 			</p:outputPanel>
 			
 		</h:form>

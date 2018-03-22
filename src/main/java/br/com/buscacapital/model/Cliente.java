@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
 @Table(name = "cliente")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -50,6 +51,13 @@ public class Cliente implements Serializable {
 
 	@Column(name="tipo_cliente")
 	private String tipoCliente;
+	
+	@Column(name="email")
+	private String email;
+
+	@Column(name="telefone")
+	private String telefone;
+
 
 	public Long getCodigo() {
 		return codigo;
@@ -130,6 +138,22 @@ public class Cliente implements Serializable {
 	public void setTipoCliente(String tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
 
 	@Override
 	public int hashCode() {
@@ -161,8 +185,13 @@ public class Cliente implements Serializable {
 		return "Cliente [codigo=" + codigo + ", usuario=" + usuario + ", enderecoUf=" + enderecoUf + ", enderecoCidade="
 				+ enderecoCidade + ", enderecoCep=" + enderecoCep + ", enderecoBairro=" + enderecoBairro
 				+ ", enderecoLogradouro=" + enderecoLogradouro + ", enderecoNumero=" + enderecoNumero
-				+ ", enderecoComplemento=" + enderecoComplemento + ", tipoCliente=" + tipoCliente + "]";
+				+ ", enderecoComplemento=" + enderecoComplemento + ", tipoCliente=" + tipoCliente + ", email=" + email
+				+ ", telefone=" + telefone + "]";
 	}
+
+	
+
+	
 
 	
 }
