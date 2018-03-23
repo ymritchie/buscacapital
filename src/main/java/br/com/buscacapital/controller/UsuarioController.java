@@ -1,5 +1,8 @@
 package br.com.buscacapital.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
@@ -49,6 +52,8 @@ public class UsuarioController {
 	private String verificaSenha;
 	
 	private Usuario usuario;
+	
+	private Date dataMinimaCadastro;
 	
 	public Usuario getUsuarioLogado () {
 		return (Usuario) SessionContext.getInstance().getUsuarioLogado();
@@ -235,6 +240,20 @@ public class UsuarioController {
 
 	public void setVerificaSenha(String verificaSenha) {
 		this.verificaSenha = verificaSenha;
+	}
+
+	public Date getDataMinimaCadastro() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 18);
+		
+		this.dataMinimaCadastro = cal.getTime();
+		
+		return dataMinimaCadastro;
+	}
+
+	public void setDataMinimaCadastro(Date dataMinimaCadastro) {
+		this.dataMinimaCadastro = dataMinimaCadastro;
 	}
 	
 	

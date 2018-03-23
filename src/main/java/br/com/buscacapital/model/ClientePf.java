@@ -18,7 +18,7 @@ import java.util.Date;
 public class ClientePf extends Cliente {
 	
 	@Column(name="cpf")
-	private Long cpf;
+	private String cpf;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="data_nascimento")
@@ -30,11 +30,11 @@ public class ClientePf extends Cliente {
 	@Column(name="sobrenome")
 	private String sobrenome;
 
-	public Long getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Long cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 

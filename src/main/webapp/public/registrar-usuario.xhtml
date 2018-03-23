@@ -28,7 +28,8 @@
 									<fieldset class="form-group position-relative has-icon-left mb-0">
 										<label for="login-usuario" class="control-label">Usuário</label>
 										<p:inputText id="login-usuario" value="#{usuarioController.usuario.login}" styleClass="form-control form-control-lg input-lg"
-											maxlength="30" placeholder="Usuário" required="true"/>
+											maxlength="30" placeholder="Usuário" required="true" onkeypress="Mascara(this,AlfaNumerico);" onkeydown="Mascara(this,AlfaNumerico);"
+											onkeyup="Mascara(this,AlfaNumerico);"/>
 										
 									</fieldset>
 									<fieldset class="form-group position-relative has-icon-left mb-1">

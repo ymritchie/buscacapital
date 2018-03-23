@@ -64,7 +64,7 @@
 								<div class="ui-inputgroup">
 									<p:inputText id="cep" value="#{clienteController.cliente.enderecoCep}" styleClass="form-control" 
 										onkeypress="Mascara(this,Cep);" onkeydown="Mascara(this,Cep);"
-										onkeyup="Mascara(this,Cep);" maxlength="9" required="true"/>
+										onkeyup="Mascara(this,Cep);" maxlength="9" required="true" requiredMessage="CEP: Valor requerido antes de salvar!"/>
 									<p:commandButton actionListener="#{clienteController.pesquisarEnderecoPorCep}" value="" styleClass="btn btn-primary btn-sm" icon="fa fa-search"
 								 		title="Pesquisar CEP" process="@this, cep" update="logradouro, bairro, cidade, estado"/>	
 								</div>	
@@ -73,7 +73,7 @@
 							<div class="col-md-9">
 								<label for="logradouro" class="control-label">Logradouro *</label>
 								<p:inputText id="logradouro" value="#{clienteController.cliente.enderecoLogradouro}" styleClass="form-control" maxlength="30"
-									required="true"/>
+									required="true" requiredMessage="Logradouro: Valor requerido antes de salvar!"/>
 							</div>
 						</div>
 						
@@ -81,13 +81,13 @@
 							<div class="col-md-6">
 								<label for="complemento" class="control-label">Complemento *</label>
 								<p:inputText id="complemento" value="#{clienteController.cliente.enderecoComplemento}" styleClass="form-control" 
-									maxlength="60" required="true"/>
+									maxlength="60" required="true" requiredMessage="Complemento: Valor requerido antes de salvar!"/>
 							</div>
 							
 							<div class="col-md-6">
 								<label for="bairro" class="control-label">Bairro *</label>
 								<p:inputText id="bairro" value="#{clienteController.cliente.enderecoBairro}" styleClass="form-control" 
-									maxlength="30" required="true"/>
+									maxlength="30" required="true" requiredMessage="Bairro: Valor requerido antes de salvar!"/>
 							</div>
 						</div>
 						
@@ -95,13 +95,13 @@
 							<div class="col-md-4">
 								<label for="cidade" class="control-label">Cidade *</label>
 								<p:inputText id="cidade" value="#{clienteController.cliente.enderecoCidade}" styleClass="form-control" 
-									maxlength="30" required="true"/>
+									maxlength="30" required="true" requiredMessage="Cidade: Valor requerido antes de salvar!"/>
 							</div>
 							
 							<div class="col-md-4">
 								<label for="estado" class="control-label">Estado *</label>
 								<p:selectOneMenu id="estado" value="#{clienteController.cliente.enderecoUf}" styleClass="form-control" maxlength="2" 
-									required="true" autoWidth="false">
+									required="true" autoWidth="false" requiredMessage="Estado: Valor requerido antes de salvar!">
 									<f:selectItem itemLabel="Estado..." itemValue="#{null}" noSelectionOption="true" />
 									<f:selectItems value="#{clienteController.listaEstados}"/>
 								</p:selectOneMenu>
@@ -111,7 +111,8 @@
 							<div class="col-md-4">
 								<label for="numero" class="control-label">Número</label>
 								<p:inputText id="numero" value="#{clienteController.cliente.enderecoNumero}" styleClass="form-control" 
-									maxlength="10"/>
+									maxlength="5" onkeypress="Mascara(this,Numero);" onkeydown="Mascara(this,Numero);"
+									onkeyup="Mascara(this,Numero);"/>
 							</div>
 							
 						</div>
@@ -119,10 +120,192 @@
 						<h4 class="form-section">
 							<i class="icon-clipboard4"></i>Informações Gerais
 						</h4>
+						
+						<p:outputPanel id="informacoesGerais">
+							<div class="row ui-fluid">
+								<div class="col-md-6">
+									<p:selectOneRadio id="tipoCliente" value="#{clienteController.cliente.tipoCliente}" layout="responsive" columns="2">
+	        							<f:selectItem itemLabel="Pessoa Física" itemValue="PF" />
+	            						<f:selectItem itemLabel="Pessoa Jurídica" itemValue="PJ" />
+	            						<p:ajax update ="informacoesGerais" listener="#{clienteController.trocarTipoPessoa}"/>
+	    							</p:selectOneRadio>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-2">
+									<label class="control-label">#{clienteController.tipoClientePessoaFisica == true ? 'CPF *' : 'CNPJ *'}</label>
+									<p:inputText id="cpf" value="#{clienteController.clientePf.cpf}" styleClass="form-control" 
+										onkeypress="Mascara(this,Cpf);" onkeydown="Mascara(this,Cpf);"
+										onkeyup="Mascara(this,Cpf);" maxlength="14" rendered="#{clienteController.tipoClientePessoaFisica}" 
+										required="#{clienteController.tipoClientePessoaFisica}"
+										requiredMessage="CPF: Valor requerido antes de salvar!"/>
+										
+									<p:inputText id="cnpj" value="#{clienteController.clientePj.cnpj}" styleClass="form-control" 
+										onkeypress="Mascara(this,Cnpj);" onkeydown="Mascara(this,Cnpj);"
+										onkeyup="Mascara(this,Cnpj);" maxlength="18" rendered="#{!clienteController.tipoClientePessoaFisica}" 
+										required="#{!clienteController.tipoClientePessoaFisica}"
+										requiredMessage="CNPJ: Valor requerido antes de salvar!"/>
+								</div>
+								
+								<div class="col-md-4">
+									<label class="control-label">#{clienteController.tipoClientePessoaFisica == true ? 'Nome *' : 'Nome Fantasia *'}</label>
+									<p:inputText id="nomepf" value="#{clienteController.clientePf.nome}" styleClass="form-control" 
+										 maxlength="30" rendered="#{clienteController.tipoClientePessoaFisica}" 
+										 required="#{clienteController.tipoClientePessoaFisica}"
+										 validatorMessage="O texto do nome contém caracteres inválidos. Favor verificar!"
+										 requiredMessage="Nome: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText> 
+										
+									<p:inputText id="nomePj" value="#{clienteController.clientePj.nomeFantasia}" styleClass="form-control" 
+										maxlength="30" rendered="#{!clienteController.tipoClientePessoaFisica}" required="#{!clienteController.tipoClientePessoaFisica}"
+										validatorMessage="O texto do nome fantásia caracteres inválidos. Favor verificar!"
+										requiredMessage="Nome Fantasia: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText>
+								</div>
+								
+								<div class="col-md-4">
+									<label class="control-label">#{clienteController.tipoClientePessoaFisica == true ? 'Sobrenome *' : 'Razão Social *'}</label>
+									<p:inputText id="sobrenomepf" value="#{clienteController.clientePf.nome}" styleClass="form-control" 
+										 maxlength="30" rendered="#{clienteController.tipoClientePessoaFisica}" required="#{clienteController.tipoClientePessoaFisica}"
+										 validatorMessage="O texto do sobrenome contém caracteres inválidos. Favor verificar!"
+										 requiredMessage="Sobrenome: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText>	 
+										
+									<p:inputText id="sobrenomePj" value="#{clienteController.clientePj.nomeFantasia}" styleClass="form-control" 
+										maxlength="30" rendered="#{!clienteController.tipoClientePessoaFisica}" required="#{!clienteController.tipoClientePessoaFisica}"
+										validatorMessage="O texto da razão social contém caracteres inválidos. Favor verificar!"
+										requiredMessage="Razão Social: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText>	
+								</div>
+								
+								<div class="col-md-2">
+									<div class="ui-fluid">
+										<label class="control-label">#{clienteController.tipoClientePessoaFisica == true ? 'Data de nascimento *' : 'Data da inscrição *'}</label>
+				   						<p:calendar value="#{clienteController.clientePf.dataNascimento}" 
+				   							effect="fade" 
+				   							maxlength="10" 
+				   							locale="pt"
+											pattern="dd/MM/yyyy" navigator="true" 
+											id="data-nascimento" 
+											showOn="button"
+											maxdate="#{clienteController.dataMinimaIdade}"
+											rendered="#{clienteController.tipoClientePessoaFisica}" 
+											required="#{clienteController.tipoClientePessoaFisica}"
+											requiredMessage="Data de nascimento: Valor requerido antes de salvar!"
+											onkeypress="Mascara(this,Data);" onkeydown="Mascara(this,Data);"
+											onkeyup="Mascara(this,Data);"/>
+											
+										<p:calendar value="#{clienteController.clientePj.dataInscricao}" 
+				   							effect="fade" 
+				   							maxlength="10" 
+				   							locale="pt"
+											pattern="dd/MM/yyyy" navigator="true" 
+											id="data-inscricao" 
+											showOn="button"
+											maxdate="#{clienteController.dataMinimaCadastro}"
+											rendered="#{!clienteController.tipoClientePessoaFisica}" 
+											required="#{!clienteController.tipoClientePessoaFisica}"
+											requiredMessage="Data da inscrição: Valor requerido antes de salvar!"
+											onkeypress="Mascara(this,Data);" onkeydown="Mascara(this,Data);"
+											onkeyup="Mascara(this,Data);"/>
+									</div>	
+								</div>
+								
+							</div>
+						</p:outputPanel>
+						
+						<h4 class="form-section">
+							<i class="icon-bubble3"></i>Informações de contato
+						</h4>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label class="control-label" for="telefone-cliente">Telefone *</label>
+	   							
+	   							<p:inputText id="telefone-cliente" value="#{clienteController.cliente.telefone}" styleClass="form-control"
+										maxlength="15" placeholder="Telefone com DDD" required="true"
+										type="tel" onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
+										onkeyup="Mascara(this,Telefone);"
+										requiredMessage="Telefone: Valor requerido antes de salvar!"/>
+							</div>
+							
+							<div class="col-md-8">
+								<label for="email-cliente" class="control-label">E-mail *</label>
+								<p:inputText id="email-cliente" value="#{clienteController.cliente.email}" styleClass="form-control"
+									maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email"
+									requiredMessage="Endereço de e-mail: Valor requerido antes de salvar!">
+									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
+								</p:inputText>
+							</div>
+						</div>
+						
+						<h4 class="form-section">
+							<i class="icon-key4"></i>Informações de login
+						</h4>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<label for="login-cliente" class="control-label">Login *</label>
+								<p:inputText id="login-cliente" value="#{clienteController.usuario.login}" styleClass="form-control"
+									maxlength="30" placeholder="Usuário" required="true" onkeypress="Mascara(this,AlfaNumerico);" onkeydown="Mascara(this,AlfaNumerico);"
+									onkeyup="Mascara(this,AlfaNumerico);"
+									requiredMessage="Login: Valor requerido antes de salvar!"/>
+							</div>
+							
+							<div class="col-md-4">
+								<label for="senha-cliente" class="control-label">Senha *</label>
+								<p:password id="senha-cliente" value="#{clienteController.usuario.senha}" styleClass="form-control"
+									maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha"
+									requiredMessage="Senha: Valor requerido antes de salvar!" />
+							</div>
+						
+							<div class="col-md-4">
+								<label for="repetir-senha" class="control-label">Repetir senha *</label>
+								<p:password id="repetir-senha" value="#{clienteController.usuario.senha}" styleClass="form-control" 
+									maxlength="20" placeholder="Repetir senha" required="true" 
+									requiredMessage="Repetir Senha: Valor requerido antes de salvar!"/>
+									
+							</div>					
+						</div>
+						
+						<br />
+						
+						<div class="row">
+							<div class="col-md-12">
+								<p:selectBooleanCheckbox value="#{clienteController.concordarTermo}" required="true" requiredMessage="Deve aceitar os termos de uso antes de continuar."/>
+								<span class="d-xs-block d-md-inline-block" style="padding-left: 5px;">Li e concordo com os <a onclick="PF('textoTermoUso').show()" class="text-bold-600 red darken-2">termos de uso</a></span>
+							</div>
+						</div>
+						
 					</div>
 					
+					<f:facet name="footer">
+   						<center>
+   							<p:commandButton value = "Salvar" update="@form" icon="fa fa-save" styleClass="btn-success" actionListener="#{clienteController.salvarCliente}">
+   								<p:confirm header="Salvar Cliente" message="Confirma a inclusão do cliente?" icon="icon-ei-question" />
+   							</p:commandButton>
+													
+							<p:spacer width="20" />
+						
+							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" process="@this" actionListener="#{clienteController.cancelarCadastroCliente}"  update="painelPesquisa, painelCadastro"/>
+   						</center>
+   					</f:facet>	
 				</p:panel>
 			</p:outputPanel>
+			
+			<p:dialog id="dlgUTermoUso"  header="Termo de uso" widgetVar="textoTermoUso" modal="true" showEffect="clip" hideEffect="fade" resizable="false" width="80%" closeOnEscape="true">
+				<h:outputText value="#{clienteController.termoDeUso}" escape="false"/>
+			</p:dialog>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" severity="alert">
+	    		<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes btn-success btn-sm" icon="fa fa-check" />
+	 	 		<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no btn-danger btn-sm" icon="fa fa-close"  />	
+	   		</p:confirmDialog>
 			
 		</h:form>
 	</ui:define>

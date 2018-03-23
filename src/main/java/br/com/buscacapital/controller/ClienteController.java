@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -17,9 +19,12 @@ import org.springframework.stereotype.Component;
 
 import br.com.buscacapital.bo.ClienteBO;
 import br.com.buscacapital.enumerator.EstadosBrasil;
+import br.com.buscacapital.enumerator.TextosFixos;
+import br.com.buscacapital.exception.BuscaCapitalException;
 import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.model.ClientePf;
 import br.com.buscacapital.model.ClientePj;
+import br.com.buscacapital.model.Usuario;
 import br.com.buscacapital.util.BuscaCapitalUtils;
 import br.com.buscacapital.util.Mensagens;
 
@@ -56,12 +61,27 @@ public class ClienteController {
 	
 	private List<SelectItem> listaEstados;
 	
+	private boolean tipoClientePessoaFisica;
+	
+	private Date dataMinimaCadastro;
+	
+	private Date dataMinimaIdade;
+	
+	private Usuario usuario;
+	
+	private String termoDeUso;
+	
+	private boolean concordarTermo;
+	
 	
 	public String iniciarCliente() {
 		this.pesquisaCliente = true;
 		this.listaEstados = EstadosBrasil.listaElementoEnum();
 		
+		this.concordarTermo = false;
+		
 		this.listaClientes = new ArrayList<Cliente>(this.clienteBO.listarTodos());
+		this.termoDeUso = TextosFixos.TERMO_DE_USO.getTexto();
 		return FW_MANTER_CLIENTE;
 	}
 	
@@ -107,7 +127,54 @@ public class ClienteController {
 	 */
 	public void incluirCliente() {
 		this.cliente = new Cliente();
+		this.usuario = new Usuario();
+		this.cliente.setUsuario(this.usuario);
+		this.cliente.setTipoCliente("PF");
 		this.pesquisaCliente = false;
+		this.tipoClientePessoaFisica = true;
+		this.clientePf = new ClientePf();
+		this.concordarTermo = false;
+	}
+	
+	/**
+	 * Instancia o Cliente correto conforme a opção escolhida na tela (Pessoa Física ou Jurídica)
+	 * @since 230/03/2018
+	 */
+	public void trocarTipoPessoa() {
+		if (this.cliente.getTipoCliente().equalsIgnoreCase("PF")) {
+			this.clientePf = new ClientePf();
+			this.clientePj = null;
+			this.tipoClientePessoaFisica = true;
+		} else {
+			this.clientePj = new ClientePj();
+			this.clientePf = null;
+			this.tipoClientePessoaFisica = false;
+		}
+		
+		this.concordarTermo = false;
+	}
+	
+	/**
+	 * Salva o cliente antendendo as características de PF ou PJ
+	 */
+	public void salvarCliente() {
+		try {
+			if (!this.isConcordarTermo()) {
+				throw new BuscaCapitalException("Deve aceitar os termos de uso antes de continuar!");
+			}
+			
+		} catch (Exception e) {
+			log.error(e);
+			Mensagens.addMsgErro(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Cancela a inclusão de cliente e retorna á tela de pesquisa
+	 */
+	public void cancelarCadastroCliente() {
+		this.pesquisaCliente = true;
+		this.listaClientes = new ArrayList<Cliente>(this.clienteBO.listarTodos());
 	}
 	
 	public boolean isPesquisaCliente() {
@@ -166,6 +233,67 @@ public class ClienteController {
 		this.listaEstados = listaEstados;
 	}
 
+	public boolean isTipoClientePessoaFisica() {
+		return tipoClientePessoaFisica;
+	}
+
+	public void setTipoClientePessoaFisica(boolean tipoClientePessoaFisica) {
+		this.tipoClientePessoaFisica = tipoClientePessoaFisica;
+	}
+	
+	public Date getDataMinimaCadastro() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) - 1);
+		
+		this.dataMinimaCadastro = cal.getTime();
+		
+		return dataMinimaCadastro;
+	}
+
+	public void setDataMinimaCadastro(Date dataMinimaCadastro) {
+		this.dataMinimaCadastro = dataMinimaCadastro;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getTermoDeUso() {
+		return termoDeUso;
+	}
+
+	public void setTermoDeUso(String termoDeUso) {
+		this.termoDeUso = termoDeUso;
+	}
+
+	public Date getDataMinimaIdade() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.set(Calendar.YEAR, cal.get(Calendar.YEAR) - 18);
+		
+		this.dataMinimaIdade = cal.getTime();
+		
+		return dataMinimaIdade;
+	}
+
+	public void setDataMinimaIdade(Date dataMinimaIdade) {
+		this.dataMinimaIdade = dataMinimaIdade;
+	}
+
+	public boolean isConcordarTermo() {
+		return concordarTermo;
+	}
+
+	public void setConcordarTermo(boolean concordarTermo) {
+		this.concordarTermo = concordarTermo;
+	}
+	
+	
 	
 	
 }

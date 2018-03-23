@@ -210,7 +210,7 @@
         }
         /* Função que  padroniza campo alfa numérico*/
         function AlfaNumerico(v){
-        	return v.replace(/[^a-zA-Z0-9]/g,"").toUpperCase();
+        	return v.replace(/[^a-zA-Z0-9]/g,"");
         }
         
         /* Função que  padroniza campo matricula com zeros a esquerda*/
@@ -224,5 +224,19 @@
         	
         	return v;
         }
+        
+        /* Permite digitar só número*/
+        function Numero(v){
+        	v = v.replace(/\D/g,"");  //permite digitar apenas números 
+        	return v;
+        }
+        
+        /* Permite digitar só letras*/
+        function Letras(v){
+        	v = v.replace(/[^a-záàâãéèêíïóôõöúçñ ]+$/,"");  
+        	return v;
+        }
+        
+        
         
         

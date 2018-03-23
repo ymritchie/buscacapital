@@ -21,7 +21,7 @@ public class ClientePj extends Cliente {
 	
 
 	@Column(name="cnpj")
-	private Long cnpj;
+	private String cnpj;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="data_inscricao")
@@ -33,11 +33,11 @@ public class ClientePj extends Cliente {
 	@Column(name="razao_social")
 	private String razaoSocial;
 
-	public Long getCnpj() {
+	public String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(Long cnpj) {
+	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
 

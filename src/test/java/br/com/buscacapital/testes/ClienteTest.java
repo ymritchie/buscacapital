@@ -42,7 +42,7 @@ public class ClienteTest extends TesteBase {
 			clientepf.setNome("Yanisley");
 			clientepf.setSobrenome("Mora Ritchie");
 			clientepf.setDataNascimento(new Date());
-			clientepf.setCpf(70100924190L);
+			clientepf.setCpf("70100924190");
 			
 			this.clienteBO.salvarCliente(clientepf);
 			
