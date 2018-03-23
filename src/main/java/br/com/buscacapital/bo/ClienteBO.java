@@ -98,7 +98,7 @@ public class ClienteBO {
 	 */
 	public List<Cliente> listarTodos() {
 		try {
-			return this.clienteDAO.findAll();
+			return this.clienteDAO.listarTodos();
 		} catch (Exception e) {
 			log.error(e);
 			return null;

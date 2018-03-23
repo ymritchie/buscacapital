@@ -1,8 +1,11 @@
 package br.com.buscacapital.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -115,6 +118,24 @@ public class ClienteDAO extends JpaDao<Cliente> implements Serializable{
 			log.error(e);
 			throw new BuscaCapitalException("Não foi possível obter o cliente", e.getMessage());
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cliente> listarTodos() {
+		try {
+			List<Cliente>  listaRetorno = new ArrayList<Cliente>();
+			StringBuilder sql = new StringBuilder();
+			sql.append(" SELECT CLI FROM Cliente CLI ");
+			
+			listaRetorno = getEntityManager().createQuery(sql.toString()).getResultList();
+			
+			return listaRetorno;
+					
+		} catch (Exception e) {
+			log.error(e);
+			throw new BuscaCapitalException("Não foi possível obter a lista de Clientes");
+		}
+
 	}
 	
 }
