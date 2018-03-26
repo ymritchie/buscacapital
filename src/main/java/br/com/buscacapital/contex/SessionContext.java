@@ -3,6 +3,7 @@ package br.com.buscacapital.contex;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.model.Usuario;
 
 public class SessionContext {
@@ -47,5 +48,13 @@ public class SessionContext {
     
     public void setAttribute(String nome, Object valor){
          currentExternalContext().getSessionMap().put(nome, valor);
+    }
+    
+    public Cliente getClienteSessao() {
+    	return (Cliente) getAttribute("cliente");
+    }
+    
+    public void SetClienteSessao(Cliente cliente) {
+    	setAttribute("cliente", cliente);
     }
 }

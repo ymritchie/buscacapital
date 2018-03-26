@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import br.com.buscacapital.bo.ClienteBO;
 import br.com.buscacapital.bo.UsuarioBO;
 import br.com.buscacapital.contex.SessionContext;
+import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.model.Usuario;
-import br.com.buscacapital.util.BuscaCapitalUtils;
+import br.com.buscacapital.util.BCUtils;
 import br.com.buscacapital.util.Mensagens;
 
 /**
@@ -44,6 +46,9 @@ public class UsuarioController {
 	 
 	@Autowired
 	private UsuarioBO usuarioBO;
+	
+	@Autowired
+	private ClienteBO clienteBO;
 	
 	private String login;
 	
@@ -80,6 +85,13 @@ public class UsuarioController {
             if (usuario.getAdministrador()) {
             	return FW_PAGINA_ADMIN;
             } else {
+            	Cliente cliente = this.clienteBO.buscarClientePorUsuario(this.usuario);
+            	
+            	if (cliente != null) {
+            		SessionContext.getInstance().setAttribute("cliente", cliente);
+            		return FW_PAGINA_ADMIN;
+            	} 
+            	
             	return FW_PAGINA_PRINCIPAL;
             }
             
@@ -185,7 +197,7 @@ public class UsuarioController {
 	 * 
 	 */
 	public String salvarUsuario() {
-		if (!BuscaCapitalUtils.validarSenha(this.usuario.getSenha())) {
+		if (!BCUtils.validarSenha(this.usuario.getSenha())) {
 			Mensagens.addMsgErro("A Senha não cumpre com os requisitos mínimos.");
 			return "";
 		}

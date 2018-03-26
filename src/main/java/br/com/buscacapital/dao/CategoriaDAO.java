@@ -1,5 +1,6 @@
 package br.com.buscacapital.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -80,9 +81,13 @@ public class CategoriaDAO extends JpaDao<Categoria> {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Categoria> listarTodos() {
 		try {
-			return findAll();
+			List<Categoria> listaRetorno = new ArrayList<Categoria>();
+			listaRetorno = getEntityManager().createNamedQuery("Categoria.findAll").getResultList();
+			
+			return listaRetorno;
 		} catch (Exception e) {
 			log.error(e);
 			throw new BuscaCapitalException("Não foi possível realizar esta operação", e);

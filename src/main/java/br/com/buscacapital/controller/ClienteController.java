@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.com.buscacapital.bo.ClienteBO;
+import br.com.buscacapital.bo.UsuarioBO;
+import br.com.buscacapital.contex.SessionContext;
 import br.com.buscacapital.enumerator.EstadosBrasil;
 import br.com.buscacapital.enumerator.TextosFixos;
 import br.com.buscacapital.exception.BuscaCapitalException;
@@ -25,7 +27,7 @@ import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.model.ClientePf;
 import br.com.buscacapital.model.ClientePj;
 import br.com.buscacapital.model.Usuario;
-import br.com.buscacapital.util.BuscaCapitalUtils;
+import br.com.buscacapital.util.BCUtils;
 import br.com.buscacapital.util.Mensagens;
 
 /**
@@ -48,6 +50,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteBO clienteBO;
+	
+	@Autowired
+	private UsuarioBO usuarioBO;
 	
 	private Cliente cliente;
 	
@@ -102,7 +107,7 @@ public class ClienteController {
 			connection.setConnectTimeout(15000);
 			connection.connect();
 			
-			String respostaJson = BuscaCapitalUtils.inputStreamToString(connection.getInputStream());
+			String respostaJson = BCUtils.inputStreamToString(connection.getInputStream());
 			
 			if (!respostaJson.isEmpty()) {
 				JSONObject  enderecoObj = new JSONObject(respostaJson);
@@ -160,9 +165,84 @@ public class ClienteController {
 	public void salvarCliente() {
 		try {
 			if (!this.isConcordarTermo()) {
-				throw new BuscaCapitalException("Deve aceitar os termos de uso antes de continuar!");
+				throw new BuscaCapitalException("Deve aceitar os termos de uso antes de continuar.");
 			}
 			
+			if (this.cliente.getTelefone().replaceAll("[^0-9]", "").length() < 8) {
+				throw new BuscaCapitalException("O telefone informado não é válido.");
+			}
+			
+			this.usuario.setAdministrador(false);
+			this.usuario.setEmail(this.cliente.getEmail());
+			this.usuario.setTelefone(this.cliente.getTelefone());
+			
+			if (this.cliente.getTipoCliente().equalsIgnoreCase("PF")) {
+				
+				if (!BCUtils.isCpfValido(this.clientePf.getCpf().replaceAll("[^0-9]", ""))) {
+					throw new BuscaCapitalException("O CPF: " + this.clientePf.getCpf() + " não corresponde com um CPF válido.");
+				}
+				
+				if (this.clientePf.getDataNascimento().after(this.getDataMinimaIdade())) {
+					throw new BuscaCapitalException("A data de nascimento: " + BCUtils.formataDataPorPadrao(this.clientePf.getDataNascimento()) + " corresponde a um menor de idade.");
+				}
+				
+				this.clientePf.setUsuario(this.usuario);
+				this.clientePf.setEnderecoUf(this.cliente.getEnderecoUf());
+				this.clientePf.setEnderecoCidade(this.cliente.getEnderecoCidade());
+				this.clientePf.setEnderecoCep(this.cliente.getEnderecoCep());
+				this.clientePf.setEnderecoBairro(this.cliente.getEnderecoBairro());
+				this.clientePf.setEnderecoLogradouro(this.cliente.getEnderecoLogradouro());
+				this.clientePf.setEnderecoNumero(this.cliente.getEnderecoNumero());
+				this.clientePf.setEnderecoComplemento(this.cliente.getEnderecoComplemento());
+				this.clientePf.setTipoCliente(this.cliente.getTipoCliente());
+				this.clientePf.setEmail(this.cliente.getEmail());
+				this.clientePf.setTelefone(this.cliente.getTelefone());
+				
+				this.clientePf.setCpf(this.clientePf.getCpf().replaceAll("[^0-9]", ""));
+				
+				this.usuario.setNome(this.clientePf.getNome());
+				this.usuario.setSobrenome(this.clientePf.getSobrenome());
+				this.usuario.setDataNascimento(this.clientePf.getDataNascimento());
+				
+				this.clienteBO.salvarCliente(this.clientePf);
+				
+				
+			} else {
+				
+				if (!BCUtils.isCpfValido(this.clientePj.getCnpj().replaceAll("[^0-9]", ""))) {
+					throw new BuscaCapitalException("O CNPJ: "  + this.clientePj.getCnpj() + " não corresponde com um CNPJ válido.");
+				}
+				
+				if (this.clientePj.getDataInscricao().after(this.getDataMinimaCadastro())) {
+					throw new BuscaCapitalException("A data de incrição: " + BCUtils.formataDataPorPadrao(this.clientePj.getDataInscricao()) + " é posterior à data atual.");
+				}
+				
+				this.clientePj.setUsuario(this.usuario);
+				this.clientePj.setEnderecoUf(this.cliente.getEnderecoUf());
+				this.clientePj.setEnderecoCidade(this.cliente.getEnderecoCidade());
+				this.clientePj.setEnderecoCep(this.cliente.getEnderecoCep());
+				this.clientePj.setEnderecoBairro(this.cliente.getEnderecoBairro());
+				this.clientePj.setEnderecoLogradouro(this.cliente.getEnderecoLogradouro());
+				this.clientePj.setEnderecoNumero(this.cliente.getEnderecoNumero());
+				this.clientePj.setEnderecoComplemento(this.cliente.getEnderecoComplemento());
+				this.clientePj.setTipoCliente(this.cliente.getTipoCliente());
+				this.clientePj.setEmail(this.cliente.getEmail());
+				this.clientePj.setTelefone(this.cliente.getTelefone());
+				
+				this.clientePj.setCnpj(this.clientePj.getCnpj().replaceAll("[^0-9]", ""));
+				
+				
+				this.usuario.setNome(this.clientePj.getNomeFantasia());
+				this.usuario.setSobrenome(this.clientePj.getRazaoSocial());
+				this.usuario.setDataNascimento(this.clientePj.getDataInscricao());
+				
+				this.clienteBO.salvarCliente(this.clientePj);
+				
+			}
+			
+			Mensagens.addMsgInfo("Cliente salvo com sucesso!");
+			this.pesquisaCliente = true;
+			this.listaClientes = new ArrayList<Cliente>(this.clienteBO.listarTodos());
 		} catch (Exception e) {
 			log.error(e);
 			Mensagens.addMsgErro(e.getMessage());
@@ -293,7 +373,9 @@ public class ClienteController {
 		this.concordarTermo = concordarTermo;
 	}
 	
-	
+	public Cliente getClienteSessao() {
+		return (Cliente) SessionContext.getInstance().getClienteSessao();
+	}
 	
 	
 }

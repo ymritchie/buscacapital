@@ -1,6 +1,9 @@
 package br.com.buscacapital.model;
 
 import javax.persistence.*;
+
+import br.com.buscacapital.util.BCUtils;
+
 import java.util.Date;
 
 
@@ -29,6 +32,10 @@ public class ClientePf extends Cliente {
 
 	@Column(name="sobrenome")
 	private String sobrenome;
+	
+	@Transient
+	private String nomeCompleto;
+	
 
 	public String getCpf() {
 		return cpf;
@@ -60,6 +67,18 @@ public class ClientePf extends Cliente {
 
 	public void setSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
+	}
+	
+	public String getNomeCompleto() {
+		if (!BCUtils.isStringVazia(this.nome)) {
+			nomeCompleto = this.nome + (BCUtils.isStringVazia(this.sobrenome) == false ? " " + this.sobrenome : "");
+		}
+		
+		return nomeCompleto.toUpperCase();
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
 	}
 
 	@Override

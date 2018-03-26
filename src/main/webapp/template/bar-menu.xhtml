@@ -20,10 +20,10 @@
         <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
           <li class="nav-item"><a href="#"><i class="icon-keyboard-o"></i><span class="menu-title">Cadastros</span></a>
             <ul class="menu-content">
-              <li>
+              <li style="display:#{usuarioController.usuarioLogado.administrador == true ? 'inherited' : 'none'}">
               	<a href="#" class="menu-item"><i class="icon-user4"></i>Usuários</a>
               </li>
-              <li>
+              <li style="display:#{usuarioController.usuarioLogado.administrador == true ? 'inherited' : 'none'}">
               	<a href="#" class="menu-item" onclick="manterCliente()"><i class="icon-group"></i>Clientes</a>  
               </li>
               <li>

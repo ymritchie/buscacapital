@@ -50,7 +50,7 @@ public class ClientePj extends Cliente {
 	}
 
 	public String getNomeFantasia() {
-		return nomeFantasia;
+		return nomeFantasia.toUpperCase();
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {

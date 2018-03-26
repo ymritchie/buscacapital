@@ -32,19 +32,22 @@
 							</div>
 						</f:facet>
 						
-						<p:column headerText="E-mail">
+						<p:column headerText="Tipo" width="20%" style="text-align: left;">
+							<h:outputText value="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" />
+						</p:column>
+						
+						<p:column headerText="Nome" style="text-align: left;">
+							<h:outputText value="#{cliente.tipoCliente == 'PF' ? cliente.nomeCompleto : cliente.nomeFantasia}" />
+						</p:column>
+						
+						<p:column headerText="E-mail" style="text-align: left;">
 							<h:outputText value="#{cliente.email}" />
 						</p:column>
 						
-						<p:column headerText="Telefone">
+						<p:column headerText="Telefone" width="15%" style="text-align: left;">
 							<h:outputText value="#{cliente.telefone}" >
 								<f:converter converterId="telefoneConverter"/>
 							</h:outputText>
-						</p:column>
-						
-						
-						<p:column headerText="Tipo">
-							<h:outputText value="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" />
 						</p:column>
 					
 					</p:dataTable>
@@ -168,14 +171,14 @@
 								
 								<div class="col-md-4">
 									<label class="control-label">#{clienteController.tipoClientePessoaFisica == true ? 'Sobrenome *' : 'Razão Social *'}</label>
-									<p:inputText id="sobrenomepf" value="#{clienteController.clientePf.nome}" styleClass="form-control" 
+									<p:inputText id="sobrenomepf" value="#{clienteController.clientePf.sobrenome}" styleClass="form-control" 
 										 maxlength="30" rendered="#{clienteController.tipoClientePessoaFisica}" required="#{clienteController.tipoClientePessoaFisica}"
 										 validatorMessage="O texto do sobrenome contém caracteres inválidos. Favor verificar!"
 										 requiredMessage="Sobrenome: Valor requerido antes de salvar!">
 										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
 									</p:inputText>	 
 										
-									<p:inputText id="sobrenomePj" value="#{clienteController.clientePj.nomeFantasia}" styleClass="form-control" 
+									<p:inputText id="sobrenomePj" value="#{clienteController.clientePj.razaoSocial}" styleClass="form-control" 
 										maxlength="30" rendered="#{!clienteController.tipoClientePessoaFisica}" required="#{!clienteController.tipoClientePessoaFisica}"
 										validatorMessage="O texto da razão social contém caracteres inválidos. Favor verificar!"
 										requiredMessage="Razão Social: Valor requerido antes de salvar!">

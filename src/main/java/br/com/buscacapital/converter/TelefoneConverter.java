@@ -5,7 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.com.buscacapital.util.BuscaCapitalUtils;
+import br.com.buscacapital.util.BCUtils;
 
 @FacesConverter("telefoneConverter")
 public class TelefoneConverter implements Converter {
@@ -19,7 +19,7 @@ public class TelefoneConverter implements Converter {
 			return "";
 		}
 		
-		return BuscaCapitalUtils.formataTelefone(arg2.toString());
+		return BCUtils.formataTelefone(arg2.toString());
 	}
 
 }

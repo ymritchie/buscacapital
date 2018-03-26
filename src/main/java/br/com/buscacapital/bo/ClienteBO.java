@@ -26,6 +26,9 @@ public class ClienteBO {
 	private static Logger log = Logger.getLogger(ClienteBO.class);
 	ClienteDAO clienteDAO;
 	
+	@Autowired
+	UsuarioBO usuarioBO;
+	
 	
 	@Autowired
 	public void setClineteDao (@Qualifier("clienteDAO") ClienteDAO clienteDAO) {
@@ -41,6 +44,14 @@ public class ClienteBO {
 		try {
 			if (!cliente.getEnderecoCep().isEmpty() || cliente.getEnderecoCep() != null) {
 				cliente.setEnderecoCep(cliente.getEnderecoCep().replaceAll("[^0-9]", ""));
+			}
+			
+			if (!cliente.getTelefone().isEmpty() || cliente.getTelefone() != null) {
+				cliente.setTelefone(cliente.getTelefone().replaceAll("[^0-9]", ""));
+			}
+			
+			if (cliente.getCodigo() == null && cliente.getUsuario().getCodigo() == null) {
+				this.usuarioBO.salvarUsuario(cliente.getUsuario());
 			}
 			
 			this.clienteDAO.salvarCliente(cliente);
@@ -103,6 +114,21 @@ public class ClienteBO {
 			log.error(e);
 			return null;
 		}
+	}
+	
+	/**
+	 * Retorna o cliente associado a um usuário específico se existir
+	 * @param usuario
+	 * @return
+	 */
+	public Cliente buscarClientePorUsuario(Usuario usuario) {
+		try {
+			return this.clienteDAO.buscarClientePorUsuario(usuario);
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+		
 	}
 
 	

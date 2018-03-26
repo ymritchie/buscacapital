@@ -11,6 +11,9 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,9 +29,11 @@ import org.apache.log4j.Logger;
  * @since 21/03/2018
  *
  */
-public class BuscaCapitalUtils {
+public class BCUtils {
 
-	private static Logger log = Logger.getLogger(BuscaCapitalUtils.class);
+	private static Logger log = Logger.getLogger(BCUtils.class);
+	
+	public static final String DIA_MES_ANO = "dd/MM/yyyy";
 	
 	/**
 	 * Criptografa para MD5
@@ -235,5 +240,58 @@ public class BuscaCapitalUtils {
 			
 		return telefone;
 	}
+	
+	/**
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static String formataDataPorPadrao(Date data) {
+		return formataDataPorPadrao(data, null);
+	}
+	
+	/**
+	 * 
+	 * @param calendar
+	 * @return
+	 */
+	public static String formataCalendarPorPadrao(Calendar calendar) {
+		return formataCalendarPorPadrao(calendar, null);
+	}
+	
+	/**
+	 * Retorna a data em formato String conforme o padrão informado ou dd/MM/yyyy se não for informado nenhum
+	 * @param data
+	 * @param padrao
+	 * @return
+	 */
+	public static String formataDataPorPadrao(Date data, String padrao) {
+		if (isStringVazia(padrao)) {
+			padrao = DIA_MES_ANO;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(padrao);
+		String dataFormatada = sdf.format(data);
+		return dataFormatada;
+	}
+	
+	/**
+	 * Retorna a data em formato String conforme o padrão informado ou dd/MM/yyyy se não for informado nenhum
+	 * @param calendar
+	 * @param padrao
+	 * @return
+	 */
+	public static String formataCalendarPorPadrao(Calendar calendar, String padrao) {
+		if (isStringVazia(padrao)) {
+			padrao = DIA_MES_ANO;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(padrao);
+		String dataFormatada = sdf.format(calendar.getTime());
+		return dataFormatada;
+	}
+	
+	public static boolean isStringVazia(String obj) {
+		return obj == null || "".equals(obj);
+	}
+
 	
 }

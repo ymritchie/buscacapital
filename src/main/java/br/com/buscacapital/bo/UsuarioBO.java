@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.buscacapital.dao.UsuarioDAO;
 import br.com.buscacapital.exception.BuscaCapitalException;
 import br.com.buscacapital.model.Usuario;
-import br.com.buscacapital.util.BuscaCapitalUtils;
+import br.com.buscacapital.util.BCUtils;
 
 /**
  * Estabelece a comunicação entre o controller e o DAO além de tratar as regras de negócio
@@ -36,10 +36,8 @@ public class UsuarioBO {
 	 */
 	public void salvarUsuario(Usuario usuario) {
 		try {
-			if (usuario.getCodigo() == null) {
-				String senhaCriptografada = BuscaCapitalUtils.convertStringToMd5(usuario.getSenha());
-				usuario.setSenha(senhaCriptografada);
-			}
+			String senhaCriptografada = BCUtils.convertStringToMd5(usuario.getSenha());
+			usuario.setSenha(senhaCriptografada);
 			
 			if (usuario.getTelefone() != null || !usuario.getTelefone().isEmpty()) {
 				usuario.setTelefone(usuario.getTelefone().replaceAll("[^0-9]", ""));
@@ -89,7 +87,7 @@ public class UsuarioBO {
 	public Usuario buscarPorLoginSenha (String login, String senha) {
 		try {
 			login = login.toLowerCase().trim();
-			senha = BuscaCapitalUtils.convertStringToMd5(senha);
+			senha = BCUtils.convertStringToMd5(senha);
 			return this.usuarioDAO.buscarPorLoginSenha(login, senha);
 		} catch (Exception e) {
 			throw new BuscaCapitalException(e.getMessage());
@@ -144,4 +142,5 @@ public class UsuarioBO {
 	public void gerarNovaSenha(String email) {
 		String novaSenha = this.gerarNovaSenha();
 	}
+	
 }

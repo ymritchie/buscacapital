@@ -137,5 +137,26 @@ public class ClienteDAO extends JpaDao<Cliente> implements Serializable{
 		}
 
 	}
+
+	/**
+	 * Retorna o cliente associado a um usuário
+	 * @param usuario
+	 * @return
+	 */
+	public Cliente buscarClientePorUsuario(Usuario usuario) {
+		try {
+			Cliente cliente = new Cliente();
+			StringBuilder sql = new StringBuilder();
+			sql.append(" SELECT CLI FROM Cliente CLI WHERE CLI.usuario = ?");
+			
+			cliente = (Cliente) getEntityManager().createQuery(sql.toString()).setParameter(1, usuario).getSingleResult();
+			
+			return cliente;
+			
+		} catch (Exception e) {
+			log.error(e);
+			return null;
+		}
+	}
 	
 }

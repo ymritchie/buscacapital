@@ -13,7 +13,7 @@ import java.util.List;
  *
  */
 @Entity
-@NamedQuery(name="Categoria.findAll", query="SELECT c FROM Categoria c")
+@NamedQuery(name="Categoria.findAll", query="SELECT C FROM Categoria C")
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 	
@@ -29,6 +29,10 @@ public class Categoria implements Serializable {
 	
 	@Column(name="nome")
 	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
+	private Cliente cliente;
 
 	public Long getCodigo() {
 		return codigo;

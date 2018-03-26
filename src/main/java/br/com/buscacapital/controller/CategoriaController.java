@@ -10,7 +10,7 @@ import br.com.buscacapital.util.Constantes;
 @Component("categoriaController")
 public class CategoriaController {
 	
-	private static final String FW_MANTER_CATEGORIAS = "/admin/manterCategorias.xhtml" + Constantes.PARAMETRO_JSF_REDIRECT;
+	private static final String FW_MANTER_CATEGORIAS = "/admin/manter-categorias.xhtml" + Constantes.PARAMETRO_JSF_REDIRECT;
 	private static Logger log = Logger.getLogger(CategoriaController.class);
 
 	
