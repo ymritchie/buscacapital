@@ -9,6 +9,7 @@
 	
 	<h:form>
 		<p:remoteCommand name="manterCliente" action="#{clienteController.iniciarCliente}" />
+		<p:remoteCommand name="manterCategoria" action="#{categoriaController.iniciarCategoria}" />
 	</h:form>
 	
     <!-- main menu-->
@@ -31,7 +32,7 @@
               </li>
               
               <li>
-              	<a href="#" class="menu-item"><i class="icon-list-ul"></i>Categórias</a> 
+              	<a href="#" class="menu-item" onclick="manterCategoria()"><i class="icon-list-ul"></i>Categórias</a> 
               </li>
 
             </ul>

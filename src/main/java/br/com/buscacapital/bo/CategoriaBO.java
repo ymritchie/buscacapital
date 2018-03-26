@@ -41,9 +41,9 @@ public class CategoriaBO {
 	 * 
 	 * @param categoria
 	 */
-	public void deletarCategoria (Categoria categoria) {
+	public void excluirCategoria (Categoria categoria) {
 		try {
-			this.categoriaDAO.deletarCategoria(categoria);
+			this.categoriaDAO.excluirCategoria(categoria);
 		} catch (Exception e) {
 			log.error(e);
 			throw new BuscaCapitalException(e);

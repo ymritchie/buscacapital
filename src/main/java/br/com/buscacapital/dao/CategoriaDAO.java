@@ -6,12 +6,19 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.buscacapital.exception.BuscaCapitalException;
 import br.com.buscacapital.model.Categoria;
 
+@Repository
+@Qualifier("categoriaDAO")
+@Scope(proxyMode = ScopedProxyMode.NO, value = "prototype")
 public class CategoriaDAO extends JpaDao<Categoria> {
 
 	private static final long serialVersionUID = 1L;
@@ -45,7 +52,8 @@ public class CategoriaDAO extends JpaDao<Categoria> {
 	 * 
 	 * @param categoria
 	 */
-	public void deletarCategoria (Categoria categoria) {
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void excluirCategoria (Categoria categoria) {
 		if (categoria == null) {
 			throw new BuscaCapitalException("A categoria deve ser inicializada antes de excluir!");
 		} else {
