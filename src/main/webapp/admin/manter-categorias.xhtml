@@ -34,23 +34,27 @@
 				            </div>
 				   		</f:facet>	
 			   		
-			   			<p:column headerText="Nome" width="20%" style="text-align: left;">
+			   			<p:column headerText="Nome" width="20%" style="text-align: left;" filterBy="#{categoria.nome}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
 								<h:outputText value="#{categoria.nome}" />
 						</p:column>
 							
-						<p:column headerText="descrição" width="60%" style="text-align: left;">
+						<p:column headerText="descrição" width="60%" style="text-align: left;" filterBy="#{categoria.descricao}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
 							<h:outputText value="#{categoria.descricao}" />
 						</p:column>
 							
 						<p:column headerText="Opções" width="20%" style="text-align: center;">
 							 <p:commandButton actionListener="#{categoriaController.editarCategoria(categoria)}" title="Editar Categoria"
-	                	     	id="btEditarCategoria" update="@form" process="@this, tblCategorias" icon="fa fa-pencil" styleClass="btn-warning btn-xs" />
+	                	     	id="btEditarCategoria" update="@form" process="@this, tblCategorias" icon="fa fa-pencil" styleClass="btn-warning btn-xs" 
+	                	     	rendered="#{categoriaController.usuarioPodeEditar(categoria)}"/>
 	                	
 		                	<p:spacer width="5"/>
 		                				
 						    <p:commandButton action="#{categoriaController.excluirCategoria(categoria)}" title="Excluir Categoria"
-							    id="btDeletarCategoria" update="@form" process="@this" icon="fa fa-trash" styleClass="btn-danger btn-xs">
-							    <p:confirm header="Excluir Categoria" message="Confirma a exlusão da Categoria?" />
+							    id="btDeletarCategoria" update="@form" process="@this" icon="fa fa-trash" styleClass="btn-danger btn-xs"
+							    rendered="#{categoriaController.usuarioPodeEditar(categoria)}">
+							    <p:confirm header="Excluir Categoria" message="Confirma a exclusão da Categoria?" />
 						    </p:commandButton>	
 						</p:column>
 						

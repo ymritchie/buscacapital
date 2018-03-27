@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Categoria.findAll", query="SELECT C FROM Categoria C")
 @Table(name = "categoria")
-public class Categoria implements Serializable {
+public class Categoria implements Serializable, EntidadeBase {
 	
 	private static final long serialVersionUID = 1L;
 	

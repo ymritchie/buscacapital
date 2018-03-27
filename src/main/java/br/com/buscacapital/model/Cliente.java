@@ -16,7 +16,7 @@ import java.util.List;
 @NamedQuery(name="Cliente.findAll", query="SELECT c FROM Cliente c")
 @Table(name = "cliente")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, EntidadeBase {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -50,7 +50,7 @@ public class ClientePj extends Cliente {
 	}
 
 	public String getNomeFantasia() {
-		return nomeFantasia.toUpperCase();
+		return nomeFantasia;
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
@@ -67,10 +67,10 @@ public class ClientePj extends Cliente {
 
 	@Override
 	public String toString() {
-		return super.toString() + "ClientePj [cnpj=" + cnpj + ", dataInscricao=" + dataInscricao + ", nomeFantasia=" + nomeFantasia
+		return "ClientePj [cnpj=" + cnpj + ", dataInscricao=" + dataInscricao + ", nomeFantasia=" + nomeFantasia
 				+ ", razaoSocial=" + razaoSocial + "]";
 	}
-	
+
 	
 	
 }

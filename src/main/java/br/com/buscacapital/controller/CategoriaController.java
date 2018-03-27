@@ -12,6 +12,8 @@ import br.com.buscacapital.bo.CategoriaBO;
 import br.com.buscacapital.contex.SessionContext;
 import br.com.buscacapital.model.Categoria;
 import br.com.buscacapital.model.Cliente;
+import br.com.buscacapital.model.SubCategoria;
+import br.com.buscacapital.model.Usuario;
 import br.com.buscacapital.util.Constantes;
 import br.com.buscacapital.util.Mensagens;
 
@@ -92,6 +94,30 @@ public class CategoriaController {
 			Mensagens.addMsgErro(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Verifica se o usuário logado pode atualizar ou deletar Categorias
+	 * @param sub
+	 * @return
+	 */
+	public boolean usuarioPodeEditar(Categoria sub) {
+		Cliente cliente = (Cliente) SessionContext.getInstance().getClienteSessao();
+		
+		Usuario usuario = (Usuario) SessionContext.getInstance().getUsuarioLogado();
+		
+		if (usuario.getAdministrador()) {
+			return true;
+		} else if (cliente == null || cliente.getCodigo() == null) {
+			return false;
+		} else if (sub.getCliente() != null) {
+			if (sub.getCliente().getCodigo() == cliente.getCodigo()) {
+				return true;
+			}
+		} 
+		
+		return false;
+	}
+
 
 	public boolean isPesquisaCategoria() {
 		return pesquisaCategoria;

@@ -20,7 +20,7 @@ import java.util.Date;
 	@NamedQuery(name="Usuario.findByEmail", query="SELECT u FROM Usuario u WHERE u.email = :email")
 })
 @Table (name ="usuario")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, EntidadeBase {
 	private static final long serialVersionUID = 1L;
 	
 	@Id

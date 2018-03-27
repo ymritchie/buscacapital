@@ -62,6 +62,8 @@ public class ClienteController {
 	
 	private List<Cliente> listaClientes;
 	
+	private List<Cliente> listaFiltrada;
+	
 	private String cep;
 	
 	private List<SelectItem> listaEstados;
@@ -209,7 +211,7 @@ public class ClienteController {
 				
 			} else {
 				
-				if (!BCUtils.isCpfValido(this.clientePj.getCnpj().replaceAll("[^0-9]", ""))) {
+				if (!BCUtils.isCnpjValido(this.clientePj.getCnpj().replaceAll("[^0-9]", ""))) {
 					throw new BuscaCapitalException("O CNPJ: "  + this.clientePj.getCnpj() + " não corresponde com um CNPJ válido.");
 				}
 				
@@ -375,6 +377,14 @@ public class ClienteController {
 	
 	public Cliente getClienteSessao() {
 		return (Cliente) SessionContext.getInstance().getClienteSessao();
+	}
+
+	public List<Cliente> getListaFiltrada() {
+		return listaFiltrada;
+	}
+
+	public void setListaFiltrada(List<Cliente> listaFiltrada) {
+		this.listaFiltrada = listaFiltrada;
 	}
 	
 	
