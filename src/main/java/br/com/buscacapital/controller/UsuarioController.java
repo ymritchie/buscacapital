@@ -1,7 +1,9 @@
 package br.com.buscacapital.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.context.FacesContext;
 
@@ -43,6 +45,8 @@ public class UsuarioController {
 	private static String FW_PAGINA_CONCLUIR_REGISTRO_USUARIO= "/public/concluir-registro-usuario.xhtml?faces-redirect=true";
 	
 	private static String FW_PAGINA_ADMIN = "/admin/main.xhtml?faces-redirect=true";
+	
+	private static String FW_PAGINA_MANTER_USUARIO = "/admin/manter-usuario.xhtml?faces-redirect=true";
 	 
 	@Autowired
 	private UsuarioBO usuarioBO;
@@ -58,7 +62,18 @@ public class UsuarioController {
 	
 	private Usuario usuario;
 	
+	private List<Usuario> listaUsuario;
+	
+	private boolean pesquisaUsuario;
+	 
 	private Date dataMinimaCadastro;
+	
+	
+	public String iniciarManterUsuario() {
+		this.pesquisaUsuario = true;
+		this.listaUsuario = new ArrayList<Usuario>(this.usuarioBO.listarTodos());
+		return FW_PAGINA_MANTER_USUARIO;
+	}
 	
 	public Usuario getUsuarioLogado () {
 		return (Usuario) SessionContext.getInstance().getUsuarioLogado();
@@ -78,6 +93,11 @@ public class UsuarioController {
               Mensagens.addMsgErro("Login ou Senha errado, tente novamente !");
               //FacesContext.getCurrentInstance().validationFailed();
               return "";
+            } else {
+            	if (!this.usuario.getAtivo()) {
+            		 Mensagens.addMsgErro("Usuário Inativo. Entre em contato para ativar seu usuário !");
+            		 return "";
+            	}
             }
   
             SessionContext.getInstance().setAttribute("usuarioLogado", this.usuario);
@@ -267,6 +287,24 @@ public class UsuarioController {
 	public void setDataMinimaCadastro(Date dataMinimaCadastro) {
 		this.dataMinimaCadastro = dataMinimaCadastro;
 	}
+
+	public List<Usuario> getListaUsuario() {
+		return listaUsuario;
+	}
+
+	public void setListaUsuario(List<Usuario> listaUsuario) {
+		this.listaUsuario = listaUsuario;
+	}
+
+	public boolean isPesquisaUsuario() {
+		return pesquisaUsuario;
+	}
+
+	public void setPesquisaUsuario(boolean pesquisaUsuario) {
+		this.pesquisaUsuario = pesquisaUsuario;
+	}
+	
+	
 	
 	
 	

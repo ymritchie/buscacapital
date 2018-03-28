@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="body-content">
+		<h:form prependId="false" styleClass="form">
+			<p:messages id="mensagem" showDetail="true" showSummary="false" autoUpdate="true" closable="true" escape="false"/>
+			
+			<p:outputPanel id="painelPesquisa" rendered="#{usuarioController.pesquisaUsuario}"> 
+				<p:panel styleClass="card" header="Lista de Usuários">
+					<p:dataTable id="tblUsuario" value="#{usuarioController.listaUsuario}" var="usuario"
+						resizableColumns="true" emptyMessage="Não há usuários cadastrados..." rows="40" paginator="true"
+						styleClass="table table-striped table-responsive" rowsPerPageTemplate="40,60,80,100"
+						paginatorTemplate="{Cadastrar} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Pesquisa}"
+	   					paginatorPosition="top" widgetVar="listFiltrada" filteredValue="#{usuarioController.listaFiltrada}">
+	   					
+	   					<f:facet name="{Cadastrar}">
+							<div style="float: left; height: 15px; padding-left: 5px;">
+								<p:commandButton id="novoUsuario" process="@this" update="@form" value="Incluir Usuário" 
+		   							actionListener="#{usuarioController.incluirUsuario}"  icon="fa fa-plus" styleClass="btn-info btn-sm" />
+							</div>
+						</f:facet>
+						
+						<f:facet name="{Pesquisa}">
+				            <div style="float: right; height: 15px;  margin-right: 15px;">
+				                <h:outputText value="  Pesquisar: " />
+				                <p:inputText id="globalFilter" onkeyup="PF('listFiltrada').filter()" style="width:150px" placeholder="Texto a pesquisar..."/>
+				            </div>
+				   		</f:facet>	
+			   		
+			   			<p:column headerText="Login" style="text-align: left;" filterBy="#{usuario.login}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{usuario.login}" />
+						</p:column>
+						
+						
+			   			<p:column headerText="Nome" style="text-align: left;" filterBy="#{usuario.nomeCompleto}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{usuario.nomeCompleto}" />
+						</p:column>
+							
+						<p:column headerText="E-mail" style="text-align: left;" filterBy="#{usuario.email}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{usuario.email}" />
+						</p:column>
+							
+						<p:column headerText="Opções" width="15%" style="text-align: center;">
+							<p:commandButton title="Editar Usuário"
+	                	     	id="btEditarUsuario" update="@form" process="@this, tblUsuario" icon="fa fa-pencil" styleClass="btn-warning btn-xs" />
+	                	
+		                	<p:spacer width="5" rendered="#{usuario.ativo}"/>
+		                				
+						    <p:commandButton title="Desativar Usuário" id="btDesativarUsuario" update="@form" process="@this" icon="fa fa-ban" styleClass="btn-danger btn-xs"
+								rendered="#{usuario.ativo}"/>
+						    
+						    <p:spacer width="5" rendered="#{!usuario.ativo}"/>
+		                				
+						    <p:commandButton title="Ativar Usuário" id="btAtivarUsuario" update="@form" process="@this" icon="fa fa-check" styleClass="btn-success btn-xs" 
+						   		rendered="#{!usuario.ativo}"/>
+						</p:column>
+						
+					</p:dataTable>
+				</p:panel>	
+			</p:outputPanel>
+			
+			<p:outputPanel id="painelCadastro" rendered="#{!usuarioController.pesquisaUsuario}">
+				<p:panel header="Manter cadastro de usuário" styleClass="card">
+					<div class="row">
+						<div class="col-md-4 has-error">
+   							<label class="control-label" for="nome-usuario">Nome *</label>
+   							<p:inputText id="nome-usuario" value="#{usuarioController.usuario.nome}" styleClass="form-control"
+									maxlength="30" placeholder="Nome" required="true" />
+   						</div>	
+   						
+   						<div class="col-md-8 has-error">
+   							<label class="control-label" for="sobrenome-usuario">Sobrenome *</label>
+   							<p:inputText id="sobrenome-usuario" value="#{usuarioController.usuario.sobrenome}" styleClass="form-control"
+									maxlength="30" placeholder="Usuário" required="true"/>
+   						</div>	
+					</div>
+					
+					<div class="row">
+						<div class="col-md-4">
+							<div class="ui-fluid">
+		   						<label class="control-label" for="data-nascimento">Data de nascimento *</label>
+		   						<p:calendar value="#{usuarioController.usuario.dataNascimento}" 
+		   							effect="fade" 
+		   							maxlength="10" 
+		   							locale="pt"
+									pattern="dd/MM/yyyy" navigator="true" 
+									id="data-nascimento" 
+									required="true" 
+									showOn="button"
+									maxdate="#{usuarioController.dataMinimaCadastro}"
+									onkeypress="Mascara(this,Data);" onkeydown="Mascara(this,Data);"
+									onkeyup="Mascara(this,Data);"/>
+							</div>	
+						</div>
+						
+						<div class="col-md-4">
+							<label class="control-label" for="telefone-usuario">Telefone *</label>
+   							
+   							<p:inputText id="telefone-usuario" value="#{usuarioController.usuario.telefone}" styleClass="form-control"
+									maxlength="15" placeholder="Telefone com DDD" required="true"
+									type="tel" onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
+									onkeyup="Mascara(this,Telefone);"/>
+						</div>
+						
+						<div class="col-md-4">
+							<label class="sexo" for="sexo">Sexo</label>
+							<p:selectOneMenu id="sexo" value="#{usuarioController.usuario.sexo}" effect="fade" styleClass="form-control"  autoWidth="false">
+		   						<f:selectItem itemLabel="Sexo..." itemValue="#{null}" noSelectionOption="true"/>
+		   						<f:selectItem itemLabel="Masculino" itemValue="M"/>
+		   						<f:selectItem itemLabel="Femenino" itemValue="F"/>
+		   					</p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<label for="login-usuario" class="control-label">Usuário</label>
+							<p:inputText id="login-usuario" value="#{usuarioController.usuario.login}" styleClass="form-control"
+								maxlength="30" placeholder="Usuário" required="true" disabled="true"/>
+						</div>
+						
+						<div class="col-md-6">
+							<label for="email-usuario" class="control-label">E-mail *</label>
+							<p:inputText id="email-usuario" value="#{usuarioController.usuario.email}" styleClass="form-control"
+								maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email" disabled="true">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
+							</p:inputText>
+						</div>
+					</div>	
+					
+					<div class="row">
+						<div class="col-md-6">
+							<label for="senha-usuario" class="control-label">Senha *</label>
+							<p:password id="senha-usuario" value="#{usuarioController.usuario.senha}" styleClass="form-control"
+								maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha" />
+						</div>
+						
+						<div class="col-md-6">
+							<label for="repetir-senha" class="control-label">Repetir senha *</label>
+							<p:password id="repetir-senha" value="#{usuarioController.usuario.senha}" styleClass="form-control" maxlength="20" placeholder="Repetir senha" required="true" />
+								
+						</div>
+					</div>
+					
+					<f:facet name="footer">
+   						<center>
+   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario}" />
+													
+							<p:spacer width="20" />
+						
+							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" action="#{usuarioController.cancelarInclusaoUsuario}" process="@form"/>
+   						</center>
+   					</f:facet>	
+						
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>	

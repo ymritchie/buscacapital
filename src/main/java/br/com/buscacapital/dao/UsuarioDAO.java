@@ -178,5 +178,20 @@ public class UsuarioDAO extends JpaDao<Usuario> implements Serializable {
 			return false;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Usuario> listarTodos() {
+		try {
+			List<Usuario> listaRetorno = new ArrayList<Usuario>();
+			listaRetorno = getEntityManager().createNamedQuery("Usuario.findAll").getResultList();
+			
+			return listaRetorno;
+			
+		} catch (Exception e) {
+			log.error(e);
+			throw new BuscaCapitalException(e.getMessage());
+		}
+		
+	}
 	
 }

@@ -39,7 +39,7 @@
 				            </div>
 				   		</f:facet>	
 						
-						<p:column headerText="Tipo" width="20%" style="text-align: left;" filterBy="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" 
+						<p:column headerText="Tipo" width="15%" style="text-align: left;" filterBy="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" 
 			   				filterStyle="display:none" filterMatchMode="contains">
 							<h:outputText value="#{cliente.tipoCliente == 'PF' ? 'PESSOA FÍSICA' : 'PESSOA JURÍDICA'}" />
 						</p:column>
@@ -59,6 +59,17 @@
 							<h:outputText value="#{cliente.telefone}" >
 								<f:converter converterId="telefoneConverter"/>
 							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Opções" width="10%" style="text-align: center;">
+							<p:commandButton  title="Editar Cliente"
+	                	     	id="btEditarCliente" update="@form" process="@this" icon="fa fa-pencil" styleClass="btn-warning btn-xs" />
+	                	
+		                	<p:spacer width="5"/>
+		                				
+						    <p:commandButton title="Excluir Cliente" id="btDeletarCliente" update="@form" process="@this" icon="fa fa-trash" styleClass="btn-danger btn-xs">
+							    <p:confirm header="Excluir Cliente" message="Confirma a exclusão do Cliente?" />
+						    </p:commandButton>	
 						</p:column>
 					
 					</p:dataTable>

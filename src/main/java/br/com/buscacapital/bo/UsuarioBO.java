@@ -1,5 +1,6 @@
 package br.com.buscacapital.bo;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,6 +142,18 @@ public class UsuarioBO {
 	 */
 	public void gerarNovaSenha(String email) {
 		String novaSenha = this.gerarNovaSenha();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Usuario> listarTodos() {
+		try {
+			return this.usuarioDAO.listarTodos();
+		}catch (Exception e) {
+			throw new BuscaCapitalException(e.getMessage());
+		}
 	}
 	
 }

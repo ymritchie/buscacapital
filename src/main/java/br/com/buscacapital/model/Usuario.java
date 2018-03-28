@@ -2,6 +2,9 @@ package br.com.buscacapital.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import br.com.buscacapital.util.BCUtils;
+
 import java.util.Date;
 
 
@@ -55,6 +58,12 @@ public class Usuario implements Serializable, EntidadeBase {
 	
 	@Column(name="administrador")
 	private Boolean administrador;
+	
+	@Column(name="ativo")
+	private Boolean ativo;
+	
+	@Transient
+	private String nomeCompleto;
 
 	public Long getCodigo() {
 		return codigo;
@@ -134,6 +143,26 @@ public class Usuario implements Serializable, EntidadeBase {
 
 	public void setAdministrador(Boolean administrador) {
 		this.administrador = administrador;
+	}
+	
+	public String getNomeCompleto() {
+		if (!BCUtils.isStringVazia(this.nome)) {
+			nomeCompleto = this.nome + (BCUtils.isStringVazia(this.sobrenome) == false ? " " + this.sobrenome : "");
+		}
+		
+		return nomeCompleto.toUpperCase();
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
+	}
+	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@Override
