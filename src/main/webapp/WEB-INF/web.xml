@@ -141,6 +141,11 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
+  <servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/wsrest/*</url-pattern>
+	</servlet-mapping>
+  
   <error-page>
     <error-code>400</error-code>
     <location>/template/erro400.jsp</location>

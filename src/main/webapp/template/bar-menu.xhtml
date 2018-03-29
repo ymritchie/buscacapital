@@ -11,6 +11,7 @@
 		<p:remoteCommand name="manterCliente" action="#{clienteController.iniciarCliente}" />
 		<p:remoteCommand name="manterCategoria" action="#{categoriaController.iniciarCategoria}" />
 		<p:remoteCommand name="manterSubCategoria" action="#{subCategoriaController.iniciarSubCategoria}" />
+		<p:remoteCommand name="manterUsuario" action="#{usuarioController.iniciarManterUsuario}" />
 	</h:form>
 	
     <!-- main menu-->
@@ -23,7 +24,7 @@
           <li class="nav-item"><a href="#"><i class="icon-keyboard-o"></i><span class="menu-title">Cadastros</span></a>
             <ul class="menu-content">
               <li style="display:#{usuarioController.usuarioLogado.administrador == true ? 'inherited' : 'none'}">
-              	<a href="#" class="menu-item"><i class="icon-user4"></i>Usuários</a>
+              	<a href="#" class="menu-item" onclick="manterUsuario()"><i class="icon-user4"></i>Usuários</a>
               </li>
               <li style="display:#{usuarioController.usuarioLogado.administrador == true ? 'inherited' : 'none'}">
               	<a href="#" class="menu-item" onclick="manterCliente()"><i class="icon-group"></i>Clientes</a>  

@@ -64,6 +64,8 @@ public class UsuarioController {
 	
 	private List<Usuario> listaUsuario;
 	
+	private List<Usuario> listaFiltrada;
+	
 	private boolean pesquisaUsuario;
 	 
 	private Date dataMinimaCadastro;
@@ -212,6 +214,11 @@ public class UsuarioController {
 		return FW_PAGINA_PRINCIPAL;
 	}
 	
+	public void retornarListaUsuario() {
+		this.pesquisaUsuario = true;
+		this.listaUsuario = new ArrayList<Usuario>(this.usuarioBO.listarTodos());
+	}
+	
 	/**
 	 * @author  Yanisley Mora Ritchie
 	 * 
@@ -240,6 +247,14 @@ public class UsuarioController {
 	 */
 	public String fazerLogin() {
 		return FW_PAGINA_LOGIN;
+	}
+	
+	public void incluirUsuario() {
+		this.usuario = new Usuario();
+		this.usuario.setAdministrador(false);
+		this.usuario.setAtivo(false);
+		
+		this.pesquisaUsuario = false;
 	}
 
 	public String getLogin() {
@@ -303,9 +318,13 @@ public class UsuarioController {
 	public void setPesquisaUsuario(boolean pesquisaUsuario) {
 		this.pesquisaUsuario = pesquisaUsuario;
 	}
-	
-	
-	
-	
+
+	public List<Usuario> getListaFiltrada() {
+		return listaFiltrada;
+	}
+
+	public void setListaFiltrada(List<Usuario> listaFiltrada) {
+		this.listaFiltrada = listaFiltrada;
+	}
 	
 }

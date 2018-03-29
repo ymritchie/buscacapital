@@ -121,16 +121,30 @@
 					</div>
 					
 					<div class="row">
+						<div class="col-md-3 offset-md-3">
+							<br />
+							<p:selectBooleanCheckbox value="#{usuarioController.usuario.administrador}" />
+							<span class="d-xs-block d-md-inline-block" style="padding-left: 5px;">Administrador do sistema</span>
+						</div>
+						
+						<div class="col-md-6">
+							<br />
+							<p:selectBooleanCheckbox value="#{usuarioController.usuario.ativo}" />
+							<span class="d-xs-block d-md-inline-block" style="padding-left: 5px;">Usuário ativo</span>
+						</div>
+					</div>
+					
+					<div class="row">
 						<div class="col-md-6">
 							<label for="login-usuario" class="control-label">Usuário</label>
 							<p:inputText id="login-usuario" value="#{usuarioController.usuario.login}" styleClass="form-control"
-								maxlength="30" placeholder="Usuário" required="true" disabled="true"/>
+								maxlength="30" placeholder="Usuário" required="true" />
 						</div>
 						
 						<div class="col-md-6">
 							<label for="email-usuario" class="control-label">E-mail *</label>
 							<p:inputText id="email-usuario" value="#{usuarioController.usuario.email}" styleClass="form-control"
-								maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email" disabled="true">
+								maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email">
 								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
 							</p:inputText>
 						</div>

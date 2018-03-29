@@ -91,4 +91,6 @@
 	<!-- usado para o autocomplete de funcinario -->
 	<bean id="applicationContextProvider" class="br.com.buscacapital.contex.ApplicationContextProvider" />
 	
+	
+	
 </beans>
