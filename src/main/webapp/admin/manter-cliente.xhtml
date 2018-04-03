@@ -13,11 +13,6 @@
 			<p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
 			
 			<p:outputPanel id="painelPesquisa" rendered="#{clienteController.pesquisaCliente}"> 
-				<p:panel styleClass="card" header="Opções de pesquisa" rendered="false">
-					
-				</p:panel>
-			
-				
 				<p:panel styleClass="card" header="Lista de Clientes">
 					<p:dataTable id="tblclientes" value="#{clienteController.listaClientes}" var="cliente"
 						resizableColumns="true" emptyMessage="Não há clientes cadastrados..." rows="40" paginator="true"
@@ -63,7 +58,7 @@
 						
 						<p:column headerText="Opções" width="10%" style="text-align: center;">
 							<p:commandButton  title="Editar Cliente"
-	                	     	id="btEditarCliente" update="@form" process="@this" icon="fa fa-pencil" styleClass="btn-warning btn-xs" />
+	                	     	id="btEditarCliente" update="@form" process="@this, tblclientes" icon="fa fa-pencil" styleClass="btn-warning btn-xs" actionListener="#{clienteController.editarCliente(cliente)}"/>
 	                	
 		                	<p:spacer width="5"/>
 		                				
@@ -87,7 +82,7 @@
 							<div class="col-md-3">
 								<label for="cep" class="control-label">CEP *</label>
 								<div class="ui-inputgroup">
-									<p:inputText id="cep" value="#{clienteController.cliente.enderecoCep}" styleClass="form-control" 
+									<p:inputText id="cep" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoCep : clienteController.clientePj.enderecoCep}" styleClass="form-control" 
 										onkeypress="Mascara(this,Cep);" onkeydown="Mascara(this,Cep);"
 										onkeyup="Mascara(this,Cep);" maxlength="9" required="true" requiredMessage="CEP: Valor requerido antes de salvar!"/>
 									<p:commandButton actionListener="#{clienteController.pesquisarEnderecoPorCep}" value="" styleClass="btn btn-primary btn-sm" icon="fa fa-search"
@@ -97,7 +92,7 @@
 							
 							<div class="col-md-9">
 								<label for="logradouro" class="control-label">Logradouro *</label>
-								<p:inputText id="logradouro" value="#{clienteController.cliente.enderecoLogradouro}" styleClass="form-control" maxlength="30"
+								<p:inputText id="logradouro" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoLogradouro : clienteController.clientePj.enderecoLogradouro}" styleClass="form-control" maxlength="30"
 									required="true" requiredMessage="Logradouro: Valor requerido antes de salvar!"/>
 							</div>
 						</div>
@@ -105,13 +100,13 @@
 						<div class="row">
 							<div class="col-md-6">
 								<label for="complemento" class="control-label">Complemento *</label>
-								<p:inputText id="complemento" value="#{clienteController.cliente.enderecoComplemento}" styleClass="form-control" 
+								<p:inputText id="complemento" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoComplemento : clienteController.clientePj.enderecoComplemento}" styleClass="form-control" 
 									maxlength="60" required="true" requiredMessage="Complemento: Valor requerido antes de salvar!"/>
 							</div>
 							
 							<div class="col-md-6">
 								<label for="bairro" class="control-label">Bairro *</label>
-								<p:inputText id="bairro" value="#{clienteController.cliente.enderecoBairro}" styleClass="form-control" 
+								<p:inputText id="bairro" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoBairro : clienteController.clientePj.enderecoBairro}" styleClass="form-control" 
 									maxlength="30" required="true" requiredMessage="Bairro: Valor requerido antes de salvar!"/>
 							</div>
 						</div>
@@ -119,13 +114,13 @@
 						<div class="row">
 							<div class="col-md-4">
 								<label for="cidade" class="control-label">Cidade *</label>
-								<p:inputText id="cidade" value="#{clienteController.cliente.enderecoCidade}" styleClass="form-control" 
+								<p:inputText id="cidade" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoCidade : clienteController.clientePj.enderecoCidade}" styleClass="form-control" 
 									maxlength="30" required="true" requiredMessage="Cidade: Valor requerido antes de salvar!"/>
 							</div>
 							
 							<div class="col-md-4">
 								<label for="estado" class="control-label">Estado *</label>
-								<p:selectOneMenu id="estado" value="#{clienteController.cliente.enderecoUf}" styleClass="form-control" maxlength="2" 
+								<p:selectOneMenu id="estado" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoUf : clienteController.clientePj.enderecoUf}" styleClass="form-control" maxlength="2" 
 									required="true" autoWidth="false" requiredMessage="Estado: Valor requerido antes de salvar!">
 									<f:selectItem itemLabel="Estado..." itemValue="#{null}" noSelectionOption="true" />
 									<f:selectItems value="#{clienteController.listaEstados}"/>
@@ -135,7 +130,7 @@
 							
 							<div class="col-md-4">
 								<label for="numero" class="control-label">Número</label>
-								<p:inputText id="numero" value="#{clienteController.cliente.enderecoNumero}" styleClass="form-control" 
+								<p:inputText id="numero" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.enderecoNumero : clienteController.clientePj.enderecoNumero}" styleClass="form-control" 
 									maxlength="5" onkeypress="Mascara(this,Numero);" onkeydown="Mascara(this,Numero);"
 									onkeyup="Mascara(this,Numero);"/>
 							</div>
@@ -146,14 +141,17 @@
 							<i class="icon-clipboard4"></i>Informações Gerais
 						</h4>
 						
-						<p:outputPanel id="informacoesGerais">
 							<div class="row ui-fluid">
 								<div class="col-md-6">
-									<p:selectOneRadio id="tipoCliente" value="#{clienteController.cliente.tipoCliente}" layout="responsive" columns="2">
+									
+									<p:selectOneRadio id="tipoCliente" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.tipoCliente : clienteController.clientePj.tipoCliente}" 
+										layout="responsive" columns="2" disabled="#{clienteController.editarCliente}">
 	        							<f:selectItem itemLabel="Pessoa Física" itemValue="PF" />
 	            						<f:selectItem itemLabel="Pessoa Jurídica" itemValue="PJ" />
-	            						<p:ajax update ="informacoesGerais" listener="#{clienteController.trocarTipoPessoa}"/>
+	            						<p:ajax update ="painelCadastro" listener="#{clienteController.trocarTipoPessoa}" event="change" partialSubmit="true"/> 
 	    							</p:selectOneRadio>
+	    							
+	    							
 								</div>
 							</div>
 							
@@ -242,7 +240,6 @@
 								</div>
 								
 							</div>
-						</p:outputPanel>
 						
 						<h4 class="form-section">
 							<i class="icon-bubble3"></i>Informações de contato
@@ -252,7 +249,7 @@
 							<div class="col-md-4">
 								<label class="control-label" for="telefone-cliente">Telefone *</label>
 	   							
-	   							<p:inputText id="telefone-cliente" value="#{clienteController.cliente.telefone}" styleClass="form-control"
+	   							<p:inputText id="telefone-cliente" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.telefone : clienteController.clientePj.telefone}" styleClass="form-control"
 										maxlength="15" placeholder="Telefone com DDD" required="true"
 										type="tel" onkeypress="Mascara(this,Telefone);" onkeydown="Mascara(this,Telefone);"
 										onkeyup="Mascara(this,Telefone);"
@@ -261,7 +258,7 @@
 							
 							<div class="col-md-8">
 								<label for="email-cliente" class="control-label">E-mail *</label>
-								<p:inputText id="email-cliente" value="#{clienteController.cliente.email}" styleClass="form-control"
+								<p:inputText id="email-cliente" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.email : clienteController.clientePj.email}" styleClass="form-control"
 									maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email"
 									requiredMessage="Endereço de e-mail: Valor requerido antes de salvar!">
 									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
@@ -269,38 +266,41 @@
 							</div>
 						</div>
 						
-						<h4 class="form-section">
+						<h4 class="form-section" style="display: #{clienteController.editarCliente == true ? 'none' : 'inherited'}">
 							<i class="icon-key4"></i>Informações de login
 						</h4>
 						
-						<div class="row">
+						<div class="row" style="display: #{clienteController.editarCliente == true ? 'none' : 'inherited'}">
 							<div class="col-md-4">
 								<label for="login-cliente" class="control-label">Login *</label>
 								<p:inputText id="login-cliente" value="#{clienteController.usuario.login}" styleClass="form-control"
 									maxlength="30" placeholder="Usuário" required="true" onkeypress="Mascara(this,AlfaNumerico);" onkeydown="Mascara(this,AlfaNumerico);"
 									onkeyup="Mascara(this,AlfaNumerico);"
-									requiredMessage="Login: Valor requerido antes de salvar!"/>
+									requiredMessage="Login: Valor requerido antes de salvar!"
+									rendered="#{!clienteController.editarCliente}"/>
 							</div>
 							
 							<div class="col-md-4">
 								<label for="senha-cliente" class="control-label">Senha *</label>
 								<p:password id="senha-cliente" value="#{clienteController.usuario.senha}" styleClass="form-control"
 									maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha"
-									requiredMessage="Senha: Valor requerido antes de salvar!" />
+									requiredMessage="Senha: Valor requerido antes de salvar!" 
+									rendered="#{!clienteController.editarCliente}"/>
 							</div>
 						
 							<div class="col-md-4">
 								<label for="repetir-senha" class="control-label">Repetir senha *</label>
 								<p:password id="repetir-senha" value="#{clienteController.usuario.senha}" styleClass="form-control" 
 									maxlength="20" placeholder="Repetir senha" required="true" 
-									requiredMessage="Repetir Senha: Valor requerido antes de salvar!"/>
+									requiredMessage="Repetir Senha: Valor requerido antes de salvar!"
+									rendered="#{!clienteController.editarCliente}"/>
 									
 							</div>					
 						</div>
 						
 						<br />
 						
-						<div class="row">
+						<div class="row" style="display: #{clienteController.editarCliente == true ? 'none' : 'inherited'}">
 							<div class="col-md-12">
 								<p:selectBooleanCheckbox value="#{clienteController.concordarTermo}" required="true" requiredMessage="Deve aceitar os termos de uso antes de continuar."/>
 								<span class="d-xs-block d-md-inline-block" style="padding-left: 5px;">Li e concordo com os <a onclick="PF('textoTermoUso').show()" class="text-bold-600 red darken-2">termos de uso</a></span>
@@ -312,7 +312,7 @@
 					<f:facet name="footer">
    						<center>
    							<p:commandButton value = "Salvar" update="@form" icon="fa fa-save" styleClass="btn-success" actionListener="#{clienteController.salvarCliente}">
-   								<p:confirm header="Salvar Cliente" message="Confirma a inclusão do cliente?" icon="icon-ei-question" />
+   								<p:confirm header="Salvar Cliente" message="Confirma salvar as do cliente?" icon="icon-ei-question" />
    							</p:commandButton>
 													
 							<p:spacer width="20" />
@@ -323,8 +323,8 @@
 				</p:panel>
 			</p:outputPanel>
 			
-			<p:dialog id="dlgUTermoUso"  header="Termo de uso" widgetVar="textoTermoUso" modal="true" showEffect="clip" hideEffect="fade" resizable="false" width="80%" closeOnEscape="true">
-				<h:outputText value="#{clienteController.termoDeUso}" escape="false"/>
+			<p:dialog id="dlgUTermoUso"  header="Termo de uso" widgetVar="textoTermoUso" modal="true" showEffect="clip" hideEffect="fade" resizable="false" width="80%" closeOnEscape="true" height="350px">
+				<h:outputText value="#{clienteController.termoDeUso}" escape="false" style="display: block; height: 340px; overflow: auto; text-align: justify; padding-right: 5px;"/>
 			</p:dialog>
 			
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" severity="alert">

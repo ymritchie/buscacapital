@@ -223,22 +223,31 @@ public class UsuarioController {
 	 * @author  Yanisley Mora Ritchie
 	 * 
 	 */
-	public String salvarUsuario() {
-		if (!BCUtils.validarSenha(this.usuario.getSenha())) {
-			Mensagens.addMsgErro("A Senha não cumpre com os requisitos mínimos.");
-			return "";
+	public String salvarUsuario(String retorno) {
+		if (this.usuario.getCodigo() == null) {
+			if (!BCUtils.validarSenha(this.usuario.getSenha())) {
+				Mensagens.addMsgErro("A Senha não cumpre com os requisitos mínimos.");
+				return "";
+			}
 		}
 		
 		try {
-			this.usuarioBO.salvarUsuario(this.usuario);
-			Mensagens.addMsgInfo("Usuário cadastrado com sucesso!");
+			this.usuarioBO.salvarUsuario(this.usuario, false, false);
+			Mensagens.addMsgInfo("Usuário salvo com sucesso!");
 		} catch (Exception e) {
 			log.error(e);
 			Mensagens.addMsgErro(e.getMessage());
 			return "";
 		}
 		
-		return FW_PAGINA_LOGIN;
+		if (retorno.equalsIgnoreCase("login")) {
+			return FW_PAGINA_LOGIN;
+		} else {
+			this.pesquisaUsuario = true;
+			this.listaUsuario = new ArrayList<Usuario>(this.usuarioBO.listarTodos());
+			return "";
+		}
+		
 	}
 	
 	/**
@@ -254,6 +263,41 @@ public class UsuarioController {
 		this.usuario.setAdministrador(false);
 		this.usuario.setAtivo(false);
 		
+		this.pesquisaUsuario = false;
+	}
+	
+	/**
+	 * Altera o status do usuário de ativo para inativo e viceversa
+	 * @param usuario
+	 */
+	public void alterarStatusUsuario(Usuario usuario) {
+		try {
+			if (usuario.getAtivo()) {
+				usuario.setAtivo(false);
+			} else {
+				usuario.setAtivo(true);
+			}
+			
+			this.usuarioBO.salvarUsuario(usuario, true, false);
+			
+			this.listaUsuario = new ArrayList<Usuario>(this.usuarioBO.listarTodos());
+			
+		} catch (Exception e) {
+			Mensagens.addMsgErro("Não foi possivel alterar a situaçao do usuário!");
+		}
+	}
+	
+	
+	public void cancelarCadastroUsuario() {
+		this.pesquisaUsuario = true;
+	}
+	
+	/**
+	 * Editar informações do usuário
+	 * @param usuario
+	 */
+	public void editarUsuario(Usuario usuario) {
+		this.usuario = usuario;
 		this.pesquisaUsuario = false;
 	}
 

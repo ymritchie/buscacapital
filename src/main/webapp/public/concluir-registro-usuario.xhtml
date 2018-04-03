@@ -10,7 +10,7 @@
 		<h:form prependId="false" styleClass="form-horizontal form-simple">
 			<p:messages id="mensagem" showDetail="true" showSummary="false" autoUpdate="true" closable="true" escape="false"/>
 			
-			<p:outputPanel id="cadastro-usuario" style="margin: auto; width: 80%;">
+			<p:outputPanel id="cadastro-usuario" style="margin: auto; width: 80%; padding-top: 10px;">
 				<p:panel header="Concluir cadastro de usuário" styleClass="card">
 					<div class="row">
 						<div class="col-md-4 has-error">
@@ -95,7 +95,7 @@
 					
 					<f:facet name="footer">
    						<center>
-   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario}" />
+   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario('login')}" />
 													
 							<p:spacer width="20" />
 						

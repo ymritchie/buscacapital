@@ -50,17 +50,17 @@
 							
 						<p:column headerText="Opções" width="15%" style="text-align: center;">
 							<p:commandButton title="Editar Usuário"
-	                	     	id="btEditarUsuario" update="@form" process="@this, tblUsuario" icon="fa fa-pencil" styleClass="btn-warning btn-xs" />
+	                	     	id="btEditarUsuario" update="@form" process="@this, tblUsuario" icon="fa fa-pencil" styleClass="btn-warning btn-xs" actionListener="#{usuarioController.editarUsuario(usuario)}"/>
 	                	
 		                	<p:spacer width="5" rendered="#{usuario.ativo}"/>
 		                				
 						    <p:commandButton title="Desativar Usuário" id="btDesativarUsuario" update="@form" process="@this" icon="fa fa-ban" styleClass="btn-danger btn-xs"
-								rendered="#{usuario.ativo}"/>
+								rendered="#{usuario.ativo}" actionListener="#{usuarioController.alterarStatusUsuario(usuario)}"/>
 						    
 						    <p:spacer width="5" rendered="#{!usuario.ativo}"/>
 		                				
 						    <p:commandButton title="Ativar Usuário" id="btAtivarUsuario" update="@form" process="@this" icon="fa fa-check" styleClass="btn-success btn-xs" 
-						   		rendered="#{!usuario.ativo}"/>
+						   		rendered="#{!usuario.ativo}" actionListener="#{usuarioController.alterarStatusUsuario(usuario)}"/>
 						</p:column>
 						
 					</p:dataTable>
@@ -150,27 +150,29 @@
 						</div>
 					</div>	
 					
-					<div class="row">
+					<div class="row" style="display: #{usuarioController.usuario.codigo == null ? 'inherited' : 'none'}">
 						<div class="col-md-6">
 							<label for="senha-usuario" class="control-label">Senha *</label>
 							<p:password id="senha-usuario" value="#{usuarioController.usuario.senha}" styleClass="form-control"
-								maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha" />
+								maxlength="20" placeholder="Senha" required="true" validatorMessage="A senhas não conferem" match="repetir-senha" 
+								rendered="#{usuarioController.usuario.codigo == null ? 'true' : 'false'}"/>
 						</div>
 						
 						<div class="col-md-6">
 							<label for="repetir-senha" class="control-label">Repetir senha *</label>
-							<p:password id="repetir-senha" value="#{usuarioController.usuario.senha}" styleClass="form-control" maxlength="20" placeholder="Repetir senha" required="true" />
+							<p:password id="repetir-senha" value="#{usuarioController.usuario.senha}" styleClass="form-control" maxlength="20" 
+								placeholder="Repetir senha" required="true" rendered="#{usuarioController.usuario.codigo == null ? 'true' : 'false'}"/>
 								
 						</div>
 					</div>
 					
 					<f:facet name="footer">
    						<center>
-   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario}" />
+   							<p:commandButton value = "Salvar"  update="@form, mensagem" icon="fa fa-save" styleClass="btn-success" action="#{usuarioController.salvarUsuario(null)}" />
 													
 							<p:spacer width="20" />
 						
-							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" action="#{usuarioController.cancelarInclusaoUsuario}" process="@form"/>
+							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" action="#{usuarioController.cancelarCadastroUsuario}" process="@form"/>
    						</center>
    					</f:facet>	
 						

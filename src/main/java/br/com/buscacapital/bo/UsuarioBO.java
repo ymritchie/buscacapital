@@ -35,17 +35,26 @@ public class UsuarioBO {
 	 * @since 14/03/2018
 	 * @param usuario
 	 */
-	public void salvarUsuario(Usuario usuario) {
+	public void salvarUsuario(Usuario usuario, boolean alteraStatus, boolean trocaSenha) {
 		try {
-			String senhaCriptografada = BCUtils.convertStringToMd5(usuario.getSenha());
-			usuario.setSenha(senhaCriptografada);
-			
-			if (usuario.getTelefone() != null || !usuario.getTelefone().isEmpty()) {
-				usuario.setTelefone(usuario.getTelefone().replaceAll("[^0-9]", ""));
-			}
-			
-			if (usuario.getAdministrador() == null) {
-				usuario.setAdministrador(false);
+			if (!alteraStatus) {
+				
+				if (usuario.getCodigo() == null || trocaSenha) {
+					String senhaCriptografada = BCUtils.convertStringToMd5(usuario.getSenha());
+					usuario.setSenha(senhaCriptografada);
+				}
+				
+				if (usuario.getTelefone() != null || !usuario.getTelefone().isEmpty()) {
+					usuario.setTelefone(usuario.getTelefone().replaceAll("[^0-9]", ""));
+				}
+				
+				if (usuario.getAdministrador() == null) {
+					usuario.setAdministrador(false);
+				}
+				
+				if (usuario.getAtivo() == null) {
+					usuario.setAtivo(false);
+				}
 			}
 				
 			this.usuarioDAO.salvarUsuario(usuario);

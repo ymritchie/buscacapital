@@ -80,8 +80,11 @@ public class ClienteController {
 	
 	private boolean concordarTermo;
 	
+	private boolean editarCliente;
+	
 	
 	public String iniciarCliente() {
+		this.editarCliente = false;
 		this.pesquisaCliente = true;
 		this.listaEstados = EstadosBrasil.listaElementoEnum();
 		
@@ -98,7 +101,8 @@ public class ClienteController {
 	 */
 	public void pesquisarEnderecoPorCep() {
 		try {
-			this.cep = this.cliente.getEnderecoCep().replaceAll("[^0-9]", "");
+			this.cep = this.tipoClientePessoaFisica == true ? this.clientePf.getEnderecoCep().replaceAll("[^0-9]", "") : this.clientePj.getEnderecoCep().replaceAll("[^0-9]", "");
+			
 			URL urlConsultarCep = new URL("http://api.postmon.com.br/v1/cep/" + this.cep);
 			
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.30.0.1", 9090));
@@ -113,10 +117,17 @@ public class ClienteController {
 			
 			if (!respostaJson.isEmpty()) {
 				JSONObject  enderecoObj = new JSONObject(respostaJson);
-				this.cliente.setEnderecoBairro(enderecoObj.getString("bairro"));
-				this.cliente.setEnderecoCidade(enderecoObj.getString("cidade"));
-				this.cliente.setEnderecoLogradouro(enderecoObj.getString("logradouro"));
-				this.cliente.setEnderecoUf(enderecoObj.getString("estado"));
+				if (this.tipoClientePessoaFisica) {
+					this.clientePf.setEnderecoBairro(enderecoObj.getString("bairro"));
+					this.clientePf.setEnderecoCidade(enderecoObj.getString("cidade"));
+					this.clientePf.setEnderecoLogradouro(enderecoObj.getString("logradouro"));
+					this.clientePf.setEnderecoUf(enderecoObj.getString("estado"));
+				} else {
+					this.clientePj.setEnderecoBairro(enderecoObj.getString("bairro"));
+					this.clientePj.setEnderecoCidade(enderecoObj.getString("cidade"));
+					this.clientePj.setEnderecoLogradouro(enderecoObj.getString("logradouro"));
+					this.clientePj.setEnderecoUf(enderecoObj.getString("estado"));
+				}
 			}
 			
 			System.out.println(respostaJson);
@@ -133,13 +144,15 @@ public class ClienteController {
 	 * @since 22/03/2018
 	 */
 	public void incluirCliente() {
-		this.cliente = new Cliente();
+		this.editarCliente = false;
+		
+		this.clientePf = new ClientePf();
 		this.usuario = new Usuario();
-		this.cliente.setUsuario(this.usuario);
-		this.cliente.setTipoCliente("PF");
+		this.clientePf.setUsuario(this.usuario);
+		this.clientePf.setTipoCliente("PF");
 		this.pesquisaCliente = false;
 		this.tipoClientePessoaFisica = true;
-		this.clientePf = new ClientePf();
+		
 		this.concordarTermo = false;
 	}
 	
@@ -148,12 +161,18 @@ public class ClienteController {
 	 * @since 230/03/2018
 	 */
 	public void trocarTipoPessoa() {
-		if (this.cliente.getTipoCliente().equalsIgnoreCase("PF")) {
+		this.tipoClientePessoaFisica = this.tipoClientePessoaFisica == true ? false : true;
+		
+		if (this.tipoClientePessoaFisica) {
 			this.clientePf = new ClientePf();
+			this.clientePf.setTipoCliente("PF");
+			this.clientePf.setUsuario(this.usuario);
 			this.clientePj = null;
 			this.tipoClientePessoaFisica = true;
 		} else {
 			this.clientePj = new ClientePj();
+			this.clientePj.setTipoCliente("PJ");
+			this.clientePj.setUsuario(this.usuario);
 			this.clientePf = null;
 			this.tipoClientePessoaFisica = false;
 		}
@@ -166,19 +185,19 @@ public class ClienteController {
 	 */
 	public void salvarCliente() {
 		try {
-			if (!this.isConcordarTermo()) {
+			if (!this.isConcordarTermo() && !this.editarCliente) {
 				throw new BuscaCapitalException("Deve aceitar os termos de uso antes de continuar.");
 			}
 			
-			if (this.cliente.getTelefone().replaceAll("[^0-9]", "").length() < 8) {
-				throw new BuscaCapitalException("O telefone informado não é válido.");
+			if (!this.editarCliente) {
+				this.usuario.setAdministrador(false);
+				this.usuario.setAtivo(true);
 			}
 			
-			this.usuario.setAdministrador(false);
-			this.usuario.setEmail(this.cliente.getEmail());
-			this.usuario.setTelefone(this.cliente.getTelefone());
-			
-			if (this.cliente.getTipoCliente().equalsIgnoreCase("PF")) {
+			if (this.tipoClientePessoaFisica) {
+				if (this.clientePf.getTelefone().replaceAll("[^0-9]", "").length() < 8) {
+					throw new BuscaCapitalException("O telefone informado não é válido.");
+				}
 				
 				if (!BCUtils.isCpfValido(this.clientePf.getCpf().replaceAll("[^0-9]", ""))) {
 					throw new BuscaCapitalException("O CPF: " + this.clientePf.getCpf() + " não corresponde com um CPF válido.");
@@ -188,28 +207,24 @@ public class ClienteController {
 					throw new BuscaCapitalException("A data de nascimento: " + BCUtils.formataDataPorPadrao(this.clientePf.getDataNascimento()) + " corresponde a um menor de idade.");
 				}
 				
-				this.clientePf.setUsuario(this.usuario);
-				this.clientePf.setEnderecoUf(this.cliente.getEnderecoUf());
-				this.clientePf.setEnderecoCidade(this.cliente.getEnderecoCidade());
-				this.clientePf.setEnderecoCep(this.cliente.getEnderecoCep());
-				this.clientePf.setEnderecoBairro(this.cliente.getEnderecoBairro());
-				this.clientePf.setEnderecoLogradouro(this.cliente.getEnderecoLogradouro());
-				this.clientePf.setEnderecoNumero(this.cliente.getEnderecoNumero());
-				this.clientePf.setEnderecoComplemento(this.cliente.getEnderecoComplemento());
-				this.clientePf.setTipoCliente(this.cliente.getTipoCliente());
-				this.clientePf.setEmail(this.cliente.getEmail());
-				this.clientePf.setTelefone(this.cliente.getTelefone());
+				if (!this.editarCliente) {
+					this.usuario.setEmail(this.clientePf.getEmail());
+					this.usuario.setTelefone(this.clientePf.getTelefone());
+					this.usuario.setNome(this.clientePf.getNome());
+					this.usuario.setSobrenome(this.clientePf.getSobrenome());
+					this.usuario.setDataNascimento(this.clientePf.getDataNascimento());
+				}
+				
 				
 				this.clientePf.setCpf(this.clientePf.getCpf().replaceAll("[^0-9]", ""));
 				
-				this.usuario.setNome(this.clientePf.getNome());
-				this.usuario.setSobrenome(this.clientePf.getSobrenome());
-				this.usuario.setDataNascimento(this.clientePf.getDataNascimento());
-				
 				this.clienteBO.salvarCliente(this.clientePf);
 				
-				
 			} else {
+				
+				if (this.clientePj.getTelefone().replaceAll("[^0-9]", "").length() < 8) {
+					throw new BuscaCapitalException("O telefone informado não é válido.");
+				}
 				
 				if (!BCUtils.isCnpjValido(this.clientePj.getCnpj().replaceAll("[^0-9]", ""))) {
 					throw new BuscaCapitalException("O CNPJ: "  + this.clientePj.getCnpj() + " não corresponde com um CNPJ válido.");
@@ -219,24 +234,15 @@ public class ClienteController {
 					throw new BuscaCapitalException("A data de incrição: " + BCUtils.formataDataPorPadrao(this.clientePj.getDataInscricao()) + " é posterior à data atual.");
 				}
 				
-				this.clientePj.setUsuario(this.usuario);
-				this.clientePj.setEnderecoUf(this.cliente.getEnderecoUf());
-				this.clientePj.setEnderecoCidade(this.cliente.getEnderecoCidade());
-				this.clientePj.setEnderecoCep(this.cliente.getEnderecoCep());
-				this.clientePj.setEnderecoBairro(this.cliente.getEnderecoBairro());
-				this.clientePj.setEnderecoLogradouro(this.cliente.getEnderecoLogradouro());
-				this.clientePj.setEnderecoNumero(this.cliente.getEnderecoNumero());
-				this.clientePj.setEnderecoComplemento(this.cliente.getEnderecoComplemento());
-				this.clientePj.setTipoCliente(this.cliente.getTipoCliente());
-				this.clientePj.setEmail(this.cliente.getEmail());
-				this.clientePj.setTelefone(this.cliente.getTelefone());
+				if (!this.editarCliente) {
+					this.usuario.setEmail(this.clientePj.getEmail());
+					this.usuario.setTelefone(this.clientePj.getTelefone());
+					this.usuario.setNome(this.clientePj.getNomeFantasia());
+					this.usuario.setSobrenome(this.clientePj.getRazaoSocial());
+					this.usuario.setDataNascimento(this.clientePj.getDataInscricao());
+				}
 				
 				this.clientePj.setCnpj(this.clientePj.getCnpj().replaceAll("[^0-9]", ""));
-				
-				
-				this.usuario.setNome(this.clientePj.getNomeFantasia());
-				this.usuario.setSobrenome(this.clientePj.getRazaoSocial());
-				this.usuario.setDataNascimento(this.clientePj.getDataInscricao());
 				
 				this.clienteBO.salvarCliente(this.clientePj);
 				
@@ -244,6 +250,7 @@ public class ClienteController {
 			
 			Mensagens.addMsgInfo("Cliente salvo com sucesso!");
 			this.pesquisaCliente = true;
+			this.editarCliente = false;
 			this.listaClientes = new ArrayList<Cliente>(this.clienteBO.listarTodos());
 		} catch (Exception e) {
 			log.error(e);
@@ -256,7 +263,28 @@ public class ClienteController {
 	 */
 	public void cancelarCadastroCliente() {
 		this.pesquisaCliente = true;
+		this.editarCliente = false;
 		this.listaClientes = new ArrayList<Cliente>(this.clienteBO.listarTodos());
+	}
+	
+	
+	/**
+	 * 
+	 * @param cliente
+	 */
+	public void editarCliente(Cliente cliente) {
+		this.editarCliente = true;
+		
+		//this.cliente = cliente;
+		if (cliente.getTipoCliente().equalsIgnoreCase("PF")) {
+			this.clientePf = (ClientePf) cliente;
+			this.tipoClientePessoaFisica = true;
+		} else {
+			this.clientePj = (ClientePj) cliente;
+			this.tipoClientePessoaFisica = false;
+		}
+		
+		this.pesquisaCliente = false;
 	}
 	
 	public boolean isPesquisaCliente() {
@@ -386,6 +414,13 @@ public class ClienteController {
 	public void setListaFiltrada(List<Cliente> listaFiltrada) {
 		this.listaFiltrada = listaFiltrada;
 	}
-	
+
+	public boolean isEditarCliente() {
+		return editarCliente;
+	}
+
+	public void setEditarCliente(boolean editarCliente) {
+		this.editarCliente = editarCliente;
+	}
 	
 }

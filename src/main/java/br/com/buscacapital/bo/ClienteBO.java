@@ -51,7 +51,7 @@ public class ClienteBO {
 			}
 			
 			if (cliente.getCodigo() == null && cliente.getUsuario().getCodigo() == null) {
-				this.usuarioBO.salvarUsuario(cliente.getUsuario());
+				this.usuarioBO.salvarUsuario(cliente.getUsuario(), false, false);
 			}
 			
 			this.clienteDAO.salvarCliente(cliente);
