@@ -49,6 +49,13 @@
 							<h:outputText value="#{cliente.email}" />
 						</p:column>
 						
+						<p:column headerText="CPF/CNPJ" style="text-align: left;" filterBy="#{cliente.tipoCliente == 'PF' ? cliente.cpf : cliente.cnpj}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{cliente.tipoCliente == 'PF' ? cliente.cpf : cliente.cnpj}">
+								<f:converter converterId="cpfCnpjConverter"/>
+							</h:outputText>
+						</p:column>
+						
 						<p:column headerText="Telefone" width="15%" style="text-align: left;" filterBy="#{cliente.telefone}" 
 			   				filterStyle="display:none" filterMatchMode="contains">
 							<h:outputText value="#{cliente.telefone}" >
@@ -312,7 +319,7 @@
 					<f:facet name="footer">
    						<center>
    							<p:commandButton value = "Salvar" update="@form" icon="fa fa-save" styleClass="btn-success" actionListener="#{clienteController.salvarCliente}">
-   								<p:confirm header="Salvar Cliente" message="Confirma salvar as do cliente?" icon="icon-ei-question" />
+   								<p:confirm header="Salvar Cliente" message="Confirma salvar as informações do cliente?" icon="icon-ei-question" />
    							</p:commandButton>
 													
 							<p:spacer width="20" />

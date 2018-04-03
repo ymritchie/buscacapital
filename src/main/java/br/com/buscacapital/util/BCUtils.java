@@ -242,6 +242,44 @@ public class BCUtils {
 	}
 	
 	/**
+	 * Formata CPF
+	 * @param cpf
+	 * @return
+	 */
+	public static String formataCpf(String cpf) {
+		if (cpf != null || !cpf.isEmpty()) {
+			Pattern pattern = null;
+			Matcher matcher = null;
+			
+			pattern = Pattern.compile("([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})");
+			matcher = pattern.matcher(cpf);
+			return matcher.replaceAll("$1.$2.$3-$4");
+		}
+		
+		return cpf;
+	}
+	
+	/**
+	 * 
+	 * @param cnpj
+	 * @return
+	 */
+	public static String formataCnpj(String cnpj) {
+		if (cnpj != null || !cnpj.isEmpty()) {
+			Pattern pattern = null;
+			Matcher matcher = null;
+			
+			pattern = Pattern.compile("([0-9]{2})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})");
+			matcher = pattern.matcher(cnpj);
+			return matcher.replaceAll("$1.$2.$3/$4-$5");
+		}
+		
+		return cnpj;
+	}
+	
+	
+	
+	/**
 	 * 
 	 * @param data
 	 * @return
