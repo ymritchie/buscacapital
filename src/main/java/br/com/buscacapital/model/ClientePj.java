@@ -32,6 +32,9 @@ public class ClientePj extends Cliente {
 
 	@Column(name="razao_social")
 	private String razaoSocial;
+	
+	@Transient
+	private String nomeCompleto;
 
 	public String getCnpj() {
 		return cnpj;
@@ -63,6 +66,14 @@ public class ClientePj extends Cliente {
 
 	public void setRazaoSocial(String razaoSocial) {
 		this.razaoSocial = razaoSocial;
+	}
+	
+	public String getNomeCompleto() {
+		return nomeFantasia;
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
 	}
 
 	@Override

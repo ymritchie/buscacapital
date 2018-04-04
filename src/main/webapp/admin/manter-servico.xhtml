@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/template/template.xhtml">
+	
+	<ui:define name="body-content" >
+
+		<h:form id="frmServico" prependId="false" styleClass="form">
+		
+			<p:messages id="messages" showDetail="true" showSummary="false" autoUpdate="true" closable="true" />
+			
+			<p:outputPanel id="painelPesquisa" rendered="#{servicoController.pesquisaServico}"> 
+				<p:panel styleClass="card" header="Lista de Serviços">
+					<p:dataTable id="tblServicos" value="#{servicoController.listaServico}" var="servico"
+						resizableColumns="true" emptyMessage="Não há serviços cadastrados..." rows="40" paginator="true"
+						styleClass="table table-striped table-responsive" rowsPerPageTemplate="40,60,80,100"
+						paginatorTemplate="{Cadastrar} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Pesquisa}"
+	   					paginatorPosition="top" widgetVar="listaFiltrada" filteredValue="#{servicoController.listaFiltrada}">
+	   					
+	   					<f:facet name="{Cadastrar}">
+							<div style="float: left; height: 15px; padding-left: 5px;">
+								<p:commandButton id="novaCategoria" process="@this" update="@form" value="Cadastrar Servico" 
+		   							actionListener="#{servicoController.incluirNovoServico}"  icon="fa fa-plus" styleClass="btn-info btn-sm" />
+							</div>
+						</f:facet>
+						
+						<f:facet name="{Pesquisa}">
+				            <div style="float: right; height: 15px;  margin-right: 15px;">
+				                <h:outputText value="  Pesquisar: " />
+				                <p:inputText id="globalFilter" onkeyup="PF('listaFiltrada').filter()" style="width:150px" placeholder="Texto a pesquisar..."/>
+				            </div>
+				   		</f:facet>	
+			   		
+			   			<p:column headerText="Cliente" style="text-align: left;" filterBy="#{servico.cliente.nomeCompleto}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{servico.cliente.nomeCompleto}" />
+						</p:column>
+						
+						
+			   			<p:column headerText="Nome do Serviço" style="text-align: left;" filterBy="#{servico.nome}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{servico.nome}" />
+						</p:column>
+							
+						<p:column headerText="Categoria" style="text-align: left;" filterBy="#{servico.categoria.nome}" 
+			   				filterStyle="display:none" filterMatchMode="contains">
+							<h:outputText value="#{servico.categoria.nome}" />
+						</p:column>
+						
+						<p:column headerText="Preço" style="text-align: left;">
+							<h:outputText value="#{servico.preco}">
+								<f:convertNumber locale="pt_BR" type="currency" maxFractionDigits="2"/>
+							</h:outputText>
+						</p:column>
+							
+						<p:column headerText="Opções" width="15%" style="text-align: center;">
+							 <p:commandButton actionListener="#{servicoController.editarServico(servico)}" title="Editar Serviço"
+	                	     	id="btEditarServico" update="@form" process="@this, tblServicos" icon="fa fa-pencil" styleClass="btn-warning btn-xs"/>
+	                	
+		                	<p:spacer width="5"/>
+		                				
+						    <p:commandButton action="#{servicoController.excluirServico(servico)}" title="Excluir Serviço"
+							    id="btDeletarServico" update="@form" process="@this" icon="fa fa-trash" styleClass="btn-danger btn-xs">
+							    <p:confirm header="Excluir Servico" message="Confirma a exclusão do Serviço?" />
+						    </p:commandButton>	
+						</p:column>
+						
+					</p:dataTable>
+				</p:panel>	
+			</p:outputPanel>
+			
+			<p:outputPanel id="painelCadastro" rendered="#{!servicoController.pesquisaServico}"> 
+				<p:panel styleClass="card" header="Manter Serviço">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-12">
+									<p:graphicImage id="imgServico" value="#{servicoController.imgServico}" width="100%" height="100%"/>
+								</div>
+								<div class="col-md-12">
+									<p:fileUpload  mode="advanced" label="Selecionar imagem..." id="uploadArquivo" auto="true"
+										fileUploadListener="#{servicoController.processarUploadImagem}" allowTypes="/(\.|\/)(jpe?g|bmp|png)$/" update="painelCadastro" />
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">Nome do Serviço *</label>
+									<p:inputText id="nomeServico" value="#{servicoController.servico.nome}" styleClass="form-control" 
+										 maxlength="30" required="true"
+										 validatorMessage="O texto do Nome contém caracteres inválidos. Favor verificar!"
+										 requiredMessage="Nome: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText>
+								</div>
+								
+								<div class="col-md-12">
+									<label class="control-label">Descrição *</label>
+									<p:inputText id="descServico" value="#{servicoController.servico.descricao}" styleClass="form-control" 
+										 maxlength="30" required="true"
+										 validatorMessage="O texto do Nome contém caracteres inválidos. Favor verificar!"
+										 requiredMessage="Nome: Valor requerido antes de salvar!">
+										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
+									</p:inputText>
+								</div>
+								
+								<div class="col-md-12">
+									<label class="control-label">Categoria *</label>
+									<p:selectOneMenu id="categoria" value="#{servicoController.servico.categoria}" effect="fade" 
+										required="true" styleClass="form-control"  autoWidth="false"
+		   								filter="true" 
+		   								filterMatchMode="startsWith"
+		   								converter="entidadeBaseConverter"
+		   								requiredMessage="Categoria: Valor requerido antes de salvar!">
+										<f:selectItem itemLabel="Categoria..." itemValue="#{null}" noSelectionOption="true"/> 
+										<f:selectItems value="#{servicoController.listaCategoria}" var="cat" itemLabel="#{cat.nome}" itemValue="#{cat}"/>
+									</p:selectOneMenu>
+								</div>
+								
+							</div>		 
+						</div>
+					</div>
+					
+					<f:facet name="footer">
+   						<center>
+   							<p:commandButton value = "Salvar" update="@form" icon="fa fa-save" styleClass="btn-success" actionListener="#{servicoController.salvarServico}">
+   								<p:confirm header="Salvar Servico" message="Confirma salvar o Serviço?" icon="icon-ei-question" />
+   							</p:commandButton>
+													
+							<p:spacer width="20" />
+						
+							<p:commandButton value="Cancelar" icon="fa fa-close" ajax="false" immediate="true" styleClass="btn-danger" process="@this" actionListener="#{servicoController.cancelarCadastroServico}"  update="painelPesquisa, painelCadastro"/>
+   						</center>
+   					</f:facet>
+				</p:panel>
+			</p:outputPanel>
+			
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" severity="alert">
+	    		<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes btn-success btn-sm" icon="fa fa-check" />
+	 	 		<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no btn-danger btn-sm" icon="fa fa-close"  />	
+	   		</p:confirmDialog>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>	

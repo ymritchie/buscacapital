@@ -14,6 +14,7 @@
 		<class>br.com.buscacapital.model.Servico</class>
 		<class>br.com.buscacapital.model.SubCategoria</class>
 		<class>br.com.buscacapital.model.Usuario</class>
+		<class>br.com.buscacapital.model.Arquivo</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

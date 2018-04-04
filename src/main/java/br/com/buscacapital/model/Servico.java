@@ -39,6 +39,10 @@ public class Servico implements Serializable, EntidadeBase {
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(name="arquivo_id")
+	private Arquivo arquivo;
 
 	public Long getCodigo() {
 		return codigo;
@@ -86,6 +90,14 @@ public class Servico implements Serializable, EntidadeBase {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public Arquivo getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Arquivo arquivo) {
+		this.arquivo = arquivo;
 	}
 
 	@Override

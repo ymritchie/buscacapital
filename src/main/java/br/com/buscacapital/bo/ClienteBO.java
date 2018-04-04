@@ -31,7 +31,7 @@ public class ClienteBO {
 	
 	
 	@Autowired
-	public void setClineteDao (@Qualifier("clienteDAO") ClienteDAO clienteDAO) {
+	public void setClienteDao (@Qualifier("clienteDAO") ClienteDAO clienteDAO) {
 		this.clienteDAO = clienteDAO;
 		this.clienteDAO.setPersistentClass(Cliente.class);
 	}
@@ -128,7 +128,6 @@ public class ClienteBO {
 			log.error(e);
 			return null;
 		}
-		
 	}
 
 	
