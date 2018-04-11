@@ -22,8 +22,8 @@
 	   					
 	   					<f:facet name="{Cadastrar}">
 							<div style="float: left; height: 15px; padding-left: 5px;">
-								<p:commandButton id="novaCategoria" process="@this" update="@form" value="Cadastrar Servico" 
-		   							actionListener="#{servicoController.incluirNovoServico}"  icon="fa fa-plus" styleClass="btn-info btn-sm" />
+								<p:commandButton id="novaCategoria" process="@this" update="painelPesquisa, painelCadastro" value="Cadastrar Servico" ajax="false"
+		   							actionListener="#{servicoController.incluirNovoServico}"  icon="fa fa-plus" styleClass="btn-info btn-sm" immediate="true"/>
 							</div>
 						</f:facet>
 						
@@ -57,8 +57,8 @@
 						</p:column>
 							
 						<p:column headerText="Opções" width="15%" style="text-align: center;">
-							 <p:commandButton actionListener="#{servicoController.editarServico(servico)}" title="Editar Serviço"
-	                	     	id="btEditarServico" update="@form" process="@this, tblServicos" icon="fa fa-pencil" styleClass="btn-warning btn-xs"/>
+							 <p:commandButton actionListener="#{servicoController.editarServico(servico)}" title="Editar Serviço" immediate="true"
+	                	     	id="btEditarServico" update="painelPesquisa, painelCadastro" process="@this" icon="fa fa-pencil" styleClass="btn-warning btn-xs" ajax="false"/>
 	                	
 		                	<p:spacer width="5"/>
 		                				
@@ -77,12 +77,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<div class="row">
-								<div class="col-md-12">
-									<p:graphicImage id="imgServico" value="#{servicoController.imgServico}" width="100%" height="100%"/>
+								<div class="col-md-12" style="text-align: center;">
+									<p:graphicImage id="imgServico" value="#{servicoController.imgServico}" width="60%" height="60%"/>
 								</div>
 								<div class="col-md-12">
 									<p:fileUpload  mode="advanced" label="Selecionar imagem..." id="uploadArquivo" auto="true"
-										fileUploadListener="#{servicoController.processarUploadImagem}" allowTypes="/(\.|\/)(jpe?g|bmp|png)$/" update="painelCadastro" />
+										fileUploadListener="#{servicoController.processarUploadImagem}" allowTypes="/(\.|\/)(jpe?g|bmp|png)$/" update=":frmServico:imgServico" />
 								</div>
 							</div>
 						</div>
@@ -90,26 +90,46 @@
 						<div class="col-md-8">
 							<div class="row">
 								<div class="col-md-12">
+									<label class="control-label">Cliente *</label>
+								   	<p:selectOneMenu id="cliente" value="#{servicoController.servico.cliente}" effect="fade" 
+										required="true" styleClass="form-control"  autoWidth="false"
+		   								filter="true" 
+		   								filterMatchMode="startsWith"
+		   								converter="entidadeBaseConverter"
+		   								disabled="#{servicoController.cliente == null ? 'false' : 'true'}"
+		   								requiredMessage="Cliente: Valor requerido antes de salvar!">
+										<f:selectItem itemLabel="Cliente..." itemValue="#{null}" noSelectionOption="true"/> 
+										<f:selectItems value="#{servicoController.listaCliente}" var="cli" itemLabel="#{cli.nomeCompleto}" itemValue="#{cli}"/>
+									</p:selectOneMenu>	
+								</div>	
+							</div>
+							
+							<div class="row">
+								<div class="col-md-12">
 									<label class="control-label">Nome do Serviço *</label>
 									<p:inputText id="nomeServico" value="#{servicoController.servico.nome}" styleClass="form-control" 
-										 maxlength="30" required="true"
+										 maxlength="20" required="true"
 										 validatorMessage="O texto do Nome contém caracteres inválidos. Favor verificar!"
 										 requiredMessage="Nome: Valor requerido antes de salvar!">
 										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
 									</p:inputText>
 								</div>
-								
+							</div>
+							
+							<div class="row">
 								<div class="col-md-12">
 									<label class="control-label">Descrição *</label>
 									<p:inputText id="descServico" value="#{servicoController.servico.descricao}" styleClass="form-control" 
-										 maxlength="30" required="true"
-										 validatorMessage="O texto do Nome contém caracteres inválidos. Favor verificar!"
+										 maxlength="60" required="true"
+										 validatorMessage="O texto da Descrição contém caracteres inválidos. Favor verificar!"
 										 requiredMessage="Nome: Valor requerido antes de salvar!">
 										<f:validateRegex pattern="[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$"/>
 									</p:inputText>
 								</div>
-								
-								<div class="col-md-12">
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6">
 									<label class="control-label">Categoria *</label>
 									<p:selectOneMenu id="categoria" value="#{servicoController.servico.categoria}" effect="fade" 
 										required="true" styleClass="form-control"  autoWidth="false"
@@ -122,7 +142,15 @@
 									</p:selectOneMenu>
 								</div>
 								
-							</div>		 
+								<div class="col-md-6  ui-fluid">
+									<label class="control-label" for="precoServico">Preço *</label>
+									<p:inputNumber id="precoServico" minValue="0" decimalPlaces="2" emptyValue="zero"
+										value="#{servicoController.servico.preco}"
+										required="true" requiredMessage="Preço: Valor requerido antes de salvar!" />
+								</div>
+							</div>
+							
+								 
 						</div>
 					</div>
 					

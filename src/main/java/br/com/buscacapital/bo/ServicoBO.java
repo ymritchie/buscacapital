@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.aspectj.weaver.BCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,14 @@ public class ServicoBO {
 	 */
 	public void salvarServico(Servico servico) {
 		try {
+			if (servico.getArquivo() != null) {
+				if (servico.getArquivo().getNome() != null) {
+					this.arquivoBO.salvarArquivo(servico.getArquivo());
+				}
+			} else {
+				throw new BCException("Favor associar uma imagem ao serviço!");
+			}
+
 			this.servicoDAO.salvarServico(servico);
 		} catch (Exception e) {
 			log.error(e);

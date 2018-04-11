@@ -1,9 +1,11 @@
 package br.com.buscacapital.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -329,6 +331,16 @@ public class BCUtils {
 	
 	public static boolean isStringVazia(String obj) {
 		return obj == null || "".equals(obj);
+	}
+	
+	public static byte[] toByteArray(InputStream is) throws IOException {
+	    OutputStream os = new ByteArrayOutputStream();
+
+	    byte[] buffer = new byte[0xFFFF];
+	    for(int len=is.read(buffer);len!=-1;len=is.read(buffer))    
+	        os.write(buffer, 0, len);
+
+	    return ((ByteArrayOutputStream) os).toByteArray();
 	}
 
 	

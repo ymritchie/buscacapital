@@ -1,9 +1,17 @@
 package br.com.buscacapital.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.aspectj.weaver.BCException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -12,14 +20,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import br.com.buscacapital.bo.ArquivoBO;
 import br.com.buscacapital.bo.CategoriaBO;
+import br.com.buscacapital.bo.ClienteBO;
 import br.com.buscacapital.bo.ServicoBO;
 import br.com.buscacapital.bo.SubCategoriaBO;
 import br.com.buscacapital.contex.SessionContext;
+import br.com.buscacapital.model.Arquivo;
 import br.com.buscacapital.model.Categoria;
 import br.com.buscacapital.model.Cliente;
 import br.com.buscacapital.model.Servico;
 import br.com.buscacapital.model.SubCategoria;
+import br.com.buscacapital.util.BCUtils;
 import br.com.buscacapital.util.Mensagens;
 
 /**
@@ -52,6 +64,12 @@ public class ServicoController {
 	@Autowired
 	private SubCategoriaBO subCategoriaBO;
 	
+	@Autowired
+	private ArquivoBO arquivoBO;
+	
+	@Autowired
+	private ClienteBO clienteBO;
+	
 	private Servico servico;
 	
 	private List<Servico> listaServico;
@@ -62,9 +80,15 @@ public class ServicoController {
 	
 	private List<SubCategoria> listaSubCategoria;
 	
+	private List<Cliente> listaCliente;
+	
 	private Cliente cliente;
 	
 	private StreamedContent imgServico;
+	
+	private Arquivo arquivo;
+	
+	private byte[] bytes;
 	
 	/**
 	 * Inicia a tela de de manter serviços
@@ -77,6 +101,9 @@ public class ServicoController {
 		this.listaServico = new ArrayList<Servico>(this.servicoBO.listarPorCliente(this.cliente));
 		this.listaCategoria = new ArrayList<Categoria>(this.categoriaBO.listarTodos());
 		this.listaSubCategoria = new ArrayList<SubCategoria>(this.subCategoriaBO.listarTodos());
+		
+		this.listaCliente = new ArrayList<Cliente>(this.clienteBO.listarTodos());
+		
 		return FW_MANTER_SERVICO;
 	}
 	
@@ -85,15 +112,40 @@ public class ServicoController {
 	 */
 	public void incluirNovoServico() {
 		this.servico = new Servico();
+		if (this.cliente != null) {
+			this.servico.setCliente(this.cliente);
+		}
+		
 		this.imgServico = null;
+		carregarImagemPadrao();
 		this.pesquisaServico = false;
+		this.arquivo = new Arquivo();
 	}
 	
 	/**
 	 * 
 	 */
 	public void salvarServico() {
+		try {
+			if (this.imgServico == null) {
+				throw new BCException("Favor selecionar uma imagem antes de salvar o serviço!");
+			}
 		
+			this.servico.setArquivo(this.arquivo);
+			
+			this.servicoBO.salvarServico(this.servico);
+			
+			Mensagens.addMsgInfo("Seviço salvo com sucesso!");
+			
+			this.listaServico = new ArrayList<Servico>(this.servicoBO.listarPorCliente(this.cliente));
+			this.pesquisaServico = true;
+			
+		} catch (Exception e) {
+			log.error(e);
+			Mensagens.addMsgErro(e.getMessage());
+		}
+		
+
 	}
 	
 	/**
@@ -117,6 +169,35 @@ public class ServicoController {
 	 * @param servico
 	 */
 	public void editarServico(Servico servico) {
+		this.servico = servico;
+		this.arquivo = new Arquivo();
+		this.arquivo = this.servico.getArquivo();
+		
+		InputStream is = new ByteArrayInputStream(this.servico.getArquivo().getConteudo());
+		
+		String nomeArquivo = this.arquivo.getNome() + "." + this.arquivo.getExtensao();
+		
+		String contentType ="";
+		
+		switch (this.arquivo.getExtensao()) {
+		case "jpg":
+			contentType = "image/jpeg";
+			break;
+		case "jpeg":
+			contentType = "image/jpeg";
+			break;
+		case "bmp":
+			contentType = "image/bmp";
+			break;
+
+		default:
+			contentType ="image/png";
+			break;
+		}
+		
+		this.imgServico = new DefaultStreamedContent(is, contentType, nomeArquivo);
+		
+		this.pesquisaServico = false;
 		
 	}
 	
@@ -124,14 +205,38 @@ public class ServicoController {
 	 * 
 	 * @param event
 	 */
-	public void processarUploadImagem (FileUploadEvent event){
+	public String processarUploadImagem (FileUploadEvent event){
 		try {
 			UploadedFile arquivoUpoad = event.getFile();
+			
+			//Carregar o arquivo que será salvo no banco de dados
+			this.arquivo.setConteudo(BCUtils.toByteArray(arquivoUpoad.getInputstream()));
+			this.arquivo.setNome(arquivoUpoad.getFileName().substring(0, arquivoUpoad.getFileName().indexOf(".")));
+			this.arquivo.setExtensao(arquivoUpoad.getFileName().substring(arquivoUpoad.getFileName().indexOf(".") + 1));
+			this.arquivo.setTamanho(new Long((arquivoUpoad.getInputstream().available())));
+			
 			this.imgServico = new DefaultStreamedContent(arquivoUpoad.getInputstream(), arquivoUpoad.getContentType(), arquivoUpoad.getFileName());
 		} catch (Exception e)  {
 			log.error(e);
 			Mensagens.addMsgErro("Não foi possível anexar o arquivo " + event.getFile().getFileName());
+			return null;
 		}
+		
+		return FW_MANTER_SERVICO;
+	}
+	
+	private void carregarImagemPadrao() {
+		try {
+			String caminho  = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/template/app-assets/images/ico/" + "/");
+			FileInputStream fis = new FileInputStream(caminho + "/android-chrome-512x512.png");
+			InputStream is = fis;
+			this.imgServico = new DefaultStreamedContent(is, "image/png");
+			
+		} catch (IOException e) {
+			log.error(e);
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public boolean isPesquisaServico() {
@@ -204,6 +309,14 @@ public class ServicoController {
 
 	public void setImgServico(StreamedContent imgServico) {
 		this.imgServico = imgServico;
+	}
+
+	public List<Cliente> getListaCliente() {
+		return listaCliente;
+	}
+
+	public void setListaCliente(List<Cliente> listaCliente) {
+		this.listaCliente = listaCliente;
 	}
 	
 	
