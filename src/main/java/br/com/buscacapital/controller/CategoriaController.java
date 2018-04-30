@@ -3,6 +3,9 @@ package br.com.buscacapital.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -42,6 +45,18 @@ public class CategoriaController {
 	public String iniciarCategoria() {
 		this.pesquisaCategoria = true;
 		this.listaCategoria = new ArrayList<Categoria>(this.categoriaBO.listarTodos());
+		
+		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		
+		String ipAddress = req.getHeader("x-forwarded-for");
+        if (ipAddress == null) {
+            ipAddress = req.getHeader("X_FORWARDED_FOR");
+            if (ipAddress == null){
+                ipAddress = req.getRemoteAddr();
+            }
+        }
+        
+        System.out.println(ipAddress);
 		
 		return FW_MANTER_CATEGORIAS;
 	}
