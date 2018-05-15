@@ -62,6 +62,7 @@ public class CategoriaController {
 	}
 	
 	/**
+	 * @author  BBPF0415 - Yanisley Mora Ritchie
 	 * Inclue e prepara uma nova categória para inserção
 	 */
 	public void incluirCategoria() {
