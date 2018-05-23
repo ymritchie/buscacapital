@@ -15,7 +15,7 @@ import br.com.buscacapital.model.EntidadeBase;
  * @author  Yanisley Mora Ritchie
  *
  */
-@FacesConverter(value = "entidadeBaseConverter")
+//@FacesConverter(value = "entidadeBaseConverter")
 public class EntidadeBaseConverter implements Converter {
 
 	@Override

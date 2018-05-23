@@ -7,4 +7,22 @@
 		<navigation-handler>br.com.buscacapital.util.Jsf2NavigationHandler</navigation-handler>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
+	
+	<converter>
+	    <description>Converter para CPF e CNPJ</description>
+	    <converter-id>cpfCnpjConverter</converter-id>
+	    <converter-class>br.com.buscacapital.converter.CpfCnpjConverter</converter-class>
+	</converter>
+	
+	<converter>
+	    <description>Converter para Telefone</description>
+	    <converter-id>telefoneConverter</converter-id>
+	    <converter-class>br.com.buscacapital.converter.TelefoneConverter</converter-class>
+	</converter>
+	
+	<converter>
+	    <description>Converter para a Entidade Base</description>
+	    <converter-id>entidadeBaseConverter</converter-id>
+	    <converter-class>br.com.buscacapital.converter.EntidadeBaseConverter</converter-class>
+	</converter>
 </faces-config>

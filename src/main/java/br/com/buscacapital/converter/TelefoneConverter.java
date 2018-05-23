@@ -7,7 +7,7 @@ import javax.faces.convert.FacesConverter;
 
 import br.com.buscacapital.util.BCUtils;
 
-@FacesConverter("telefoneConverter")
+//@FacesConverter("telefoneConverter")
 public class TelefoneConverter implements Converter {
 
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {

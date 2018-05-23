@@ -7,7 +7,7 @@ import javax.faces.convert.FacesConverter;
 
 import br.com.buscacapital.util.BCUtils;
 
-@FacesConverter("cpfCnpjConverter")
+//@FacesConverter("cpfCnpjConverter")
 public class CpfCnpjConverter implements Converter {
 
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
