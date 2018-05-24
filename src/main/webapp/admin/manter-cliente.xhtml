@@ -266,7 +266,7 @@
 							<div class="col-md-8">
 								<label for="email-cliente" class="control-label">E-mail *</label>
 								<p:inputText id="email-cliente" value="#{clienteController.tipoClientePessoaFisica == true ? clienteController.clientePf.email : clienteController.clientePj.email}" styleClass="form-control"
-									maxlength="30" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email"
+									maxlength="60" placeholder="E-mail" required="true" validatorMessage="O e-mail informado não é válido." type="email"
 									requiredMessage="Endereço de e-mail: Valor requerido antes de salvar!">
 									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />	
 								</p:inputText>
