@@ -50,7 +50,7 @@ public class ClienteBO {
 				cliente.setTelefone(cliente.getTelefone().replaceAll("[^0-9]", ""));
 			}
 			
-			if (cliente.getCodigo() == null && cliente.getUsuario().getCodigo() == null) {
+			if (cliente.getCodigo() == null && (cliente.getUsuario() != null && cliente.getUsuario().getCodigo() == null )) {
 				this.usuarioBO.salvarUsuario(cliente.getUsuario(), false, false);
 			}
 			

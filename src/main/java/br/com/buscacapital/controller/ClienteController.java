@@ -105,11 +105,11 @@ public class ClienteController {
 			
 			URL urlConsultarCep = new URL("http://api.postmon.com.br/v1/cep/" + this.cep);
 			
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.30.0.1", 9090));
+			//Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.30.0.1", 9090));
 			
-			HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection(proxy);
+			//HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection(proxy);
 			
-			//HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) urlConsultarCep.openConnection();
 			connection.setConnectTimeout(15000);
 			connection.connect();
 			

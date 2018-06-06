@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	
+	<!-- Unidade de Persistência para web -->
 	<persistence-unit name="buscacapitalPU" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>buscacapitalDS</non-jta-data-source>
@@ -24,7 +25,7 @@
 			<property name="javax.persistence.query.timeout" value="1000" />
 			<property name="hibernate.transaction.flush_before_completion"	value="true" /> 
 		</properties>
-	</persistence-unit>
+	</persistence-unit> 
 	
 	<!-- Unidade de Persistência para testes 
 	<persistence-unit name="buscacapitalTESTE" transaction-type="RESOURCE_LOCAL">
@@ -40,6 +41,7 @@
 		<class>br.com.buscacapital.model.Servico</class>
 		<class>br.com.buscacapital.model.SubCategoria</class>
 		<class>br.com.buscacapital.model.Usuario</class>
+		<class>br.com.buscacapital.model.Arquivo</class>
 		
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
@@ -50,6 +52,6 @@
 			<property name="hibernate.transaction.flush_before_completion"	value="true" /> 
 			
 		</properties>
-	</persistence-unit>
-	-->
+	</persistence-unit>-->
+	
 </persistence>
