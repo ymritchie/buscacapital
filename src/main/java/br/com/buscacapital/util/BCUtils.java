@@ -342,6 +342,10 @@ public class BCUtils {
 
 	    return ((ByteArrayOutputStream) os).toByteArray();
 	}
+	
+	public static boolean isSoTexto(String texto) {
+		return texto.matches("^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$");
+	}
 
 	
 }

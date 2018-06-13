@@ -135,7 +135,7 @@ public class ServicoController {
 			
 			this.servicoBO.salvarServico(this.servico);
 			
-			Mensagens.addMsgInfo("Seviço salvo com sucesso!");
+			Mensagens.addMsgInfo("Serviço salvo com sucesso!");
 			
 			this.listaServico = new ArrayList<Servico>(this.servicoBO.listarPorCliente(this.cliente));
 			this.pesquisaServico = true;
