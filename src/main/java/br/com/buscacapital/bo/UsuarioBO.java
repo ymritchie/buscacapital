@@ -44,8 +44,8 @@ public class UsuarioBO {
 					usuario.setSenha(senhaCriptografada);
 				}
 				
-				if (usuario.getTelefone() != null || !usuario.getTelefone().isEmpty()) {
-					usuario.setTelefone(usuario.getTelefone().replaceAll("[^0-9]", ""));
+				if (usuario.getTelefone() != null) {
+					usuario.setTelefone(!usuario.getTelefone().isEmpty() ? usuario.getTelefone().replaceAll("[^0-9]", "") : null);
 				}
 				
 				if (usuario.getAdministrador() == null) {
