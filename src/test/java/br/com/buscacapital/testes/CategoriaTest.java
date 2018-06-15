@@ -1,5 +1,7 @@
 package br.com.buscacapital.testes;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +20,7 @@ public class CategoriaTest extends TesteBase  {
 	ClienteBO clienteBO;
 	
 	@Test
-	public void cadastrarCategoria() {
+	public void testeCadastrarCategoria() {
 		Categoria categoria = new Categoria();
 		
 		categoria.setNome("Categoria Nome");
@@ -28,7 +30,7 @@ public class CategoriaTest extends TesteBase  {
 	}
 	
 	@Test
-	public void cadastrarCategoriaCliente() {
+	public void testeCadastrarCategoriaCliente() {
 		Categoria categoria = new Categoria();
 		
 		categoria.setNome("Categoria Nome Cliente");
@@ -39,5 +41,12 @@ public class CategoriaTest extends TesteBase  {
 		categoria.setCliente(cliente);
 		
 		this.categoriaBO.salvarCategoria(categoria);
+	}
+	
+	@Test
+	public void testeListarCategorias() {
+		List<Categoria> listaCategoria = this.categoriaBO.listarTodos();
+		
+		System.out.println(listaCategoria.toString());
 	}
 }
