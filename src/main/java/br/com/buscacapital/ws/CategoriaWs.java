@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.buscacapital.bo.CategoriaBO;
+import br.com.buscacapital.dto.CategoriaDTO;
 import br.com.buscacapital.model.Categoria;
 
 @Controller
@@ -36,18 +37,30 @@ public class CategoriaWs {
 		
 		List<Categoria> listaCategoria = new ArrayList<Categoria>(this.categoriaBO.listarTodos());
 		
-		Map<Long, String> categorias = new HashMap<Long, String>();
+		List<CategoriaDTO> listaRetorno = this.montarListaCategotrias(listaCategoria);
 		
-		for (Categoria cat : listaCategoria) {
-			categorias.put(cat.getCodigo(), cat.getNome());
-		}
-		
-		String objRetorno = gsonCat.toJson(categorias);
+		String objRetorno = gsonCat.toJson(listaRetorno);
 		
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		
 		return new ResponseEntity<String>(objRetorno, responseHeaders, HttpStatus.OK);
+	}
+
+	private List<CategoriaDTO> montarListaCategotrias(List<Categoria> listaCategoria) {
+		List<CategoriaDTO> listaCategoriaDTO = new ArrayList<CategoriaDTO>();
+		
+		if (!listaCategoria.isEmpty()) {
+			for (Categoria item : listaCategoria) {
+				CategoriaDTO cat = new CategoriaDTO();
+				
+				cat.setIdCategoria(item.getCodigo());
+				cat.setNome(item.getNome());
+				
+				listaCategoriaDTO.add(cat);
+			}
+		}
+		return listaCategoriaDTO;
 	}
 }

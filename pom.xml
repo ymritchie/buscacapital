@@ -70,7 +70,7 @@
 	  <scope>provided</scope>
 	</dependency>
 	
-	<!-- Esta dependência  deve ser inativada para realizar testes unitários com JUnit 
+	<!-- Esta dependência  deve ser inativada para realizar testes unitários com JUnit -->
     <dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
@@ -81,9 +81,9 @@
 	            <artifactId>dom4j</artifactId>
 	        </exclusion>
     	</exclusions>
-	</dependency> -->
+	</dependency> 
 	
-	<!-- Dependências devem ser ativadas para realizar testes unitários com JUnit -->
+	<!-- Dependências devem ser ativadas para realizar testes unitários com JUnit 
 		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-core</artifactId>
@@ -95,7 +95,7 @@
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 			<scope>provided</scope>
-		</dependency> 
+		</dependency> -->
 	
 	 
 	

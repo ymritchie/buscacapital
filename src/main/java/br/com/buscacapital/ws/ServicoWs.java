@@ -3,6 +3,7 @@ package br.com.buscacapital.ws;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -56,7 +57,7 @@ public class ServicoWs {
 		if (!listaServicos.isEmpty()) {
 			for (Servico item : listaServicos) {
 				ServicoDTO sDto = new ServicoDTO();
-				sDto.setImagem(item.getArquivo().getConteudo());
+				sDto.setImagem(Base64.encodeBase64String(item.getArquivo().getConteudo()));
 				sDto.setNomeServico(item.getNome());
 				sDto.setDescricaoServico(item.getDescricao());
 				sDto.setPrecoServico(item.getPreco());

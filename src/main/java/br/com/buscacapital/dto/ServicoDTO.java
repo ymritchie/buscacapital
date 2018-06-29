@@ -1,7 +1,7 @@
 package br.com.buscacapital.dto;
 
 public class ServicoDTO {
-	private byte[] imagem;
+	private String imagem;
 	
 	private String nomeServico;
 	
@@ -17,11 +17,11 @@ public class ServicoDTO {
 	
 	private String nomeCategoria;
 
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 
